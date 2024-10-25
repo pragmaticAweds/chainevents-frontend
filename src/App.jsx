@@ -13,11 +13,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="create-event" element={<CreateEvent />} />
         <Route path="app" element={<AppLayout />}>
           <Route index element={<Navigate replace to="home" />} />
           <Route path="home" element={<DashboardPage />} />
-          <Route path="create-event" element={<CreateEvent />} />
-
           <Route path="events" element={<EventsPage />} />
           <Route path="event/:eventId" element={<EventDetailsPage />} />
           <Route path="tickets" element={<TicketsPage />} />
