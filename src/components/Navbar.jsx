@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import argent from "../assets/argentLogo.svg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
 import { createPortal } from "react-dom";
 
@@ -52,9 +52,13 @@ function Navbar({ classes }) {
     >
       {isOpen &&
         createPortal(<ConnectModal setIsOpen={setIsOpen} />, document.body)}
-      <h4 className="font-extrabold ">STARKEVENTS</h4>
+      <Link to="/" className="font-extrabold ">
+        STARKEVENTS
+      </Link>
       <ul className="gap-x-[60px] items-center lg:flex hidden">
-        <li className="flex gap-x-2 items-center">Create Event</li>
+        <li className="flex gap-x-2 items-center">
+          <Link to={"/create-event"}>Create Event</Link>
+        </li>
         <li className="flex gap-x-2 items-center">Your Events</li>
         <li className="flex gap-x-2 items-center">Communities</li>
         <li className="flex gap-x-2 items-center">Calendars</li>
