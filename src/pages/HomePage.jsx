@@ -2,24 +2,18 @@ import { useState } from "react";
 import GenericModal from "../components/GenericModal";
 import Navbar from "../components/Navbar";
 import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
-import { useConnectWallet } from "../context/ConnectContext";
-import { connectWallet } from "../api/ConnectAPI";
-import { connect } from "get-starknet";
+import { Link, useNavigate } from "react-router-dom";
+import { useAccount } from "@starknet-react/core";
 
 function HomePage() {
   const [username, setUsername] = useState("");
   const [nameModalOpen, setNameModalOpen] = useState(false);
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
   const navigate = useNavigate();
-  const { connection, dispatch } = useConnectWallet();
-
-  async function onConnect() {
-    await connectWallet(dispatch, connect);
-  }
+  const { address } = useAccount();
 
   return (
-    <div className="pt-[267px] text-white bg-[#333] h-full flex flex-col items-center text-center relative min-h-[100vh]">
+    <div className="pt-[267px] text-white h-full flex flex-col items-center text-center relative min-h-[100vh] bg-primaryBackground bg-[#1E1D1D]">
       {nameModalOpen &&
         createPortal(
           <GenericModal
@@ -78,20 +72,13 @@ function HomePage() {
         transparent, and decentralized ticketing solutions that provide peace of
         mind and ease of use for every event. Step into the future with us
       </p>
-      {connection?.isConnected ? (
-        <button
+      {address && (
+        <Link
+          to={"/create-event"}
           className="bg-black py-[18px] px-[69px] rounded-[5px] text-base font-medium"
-          onClick={() => setNameModalOpen(true)}
         >
           Create your Event
-        </button>
-      ) : (
-        <button
-          className="bg-black py-[18px] px-[69px] rounded-[5px] text-base font-medium"
-          onClick={onConnect}
-        >
-          connect wallet
-        </button>
+        </Link>
       )}
     </div>
   );

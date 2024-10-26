@@ -1,0 +1,15 @@
+export const timezones = [
+  { label: "Lagos, Nigeria - GMT +01:00", value: "Africa/Lagos" },
+  { label: "Los Angeles - GMT -07:00", value: "America/Los_Angeles" },
+  { label: "Chicago - GMT -05:00", value: "America/Chicago" },
+  { label: "Toronto - GMT -04:00", value: "America/Toronto" },
+  { label: "New York - GMT -04:00", value: "America/New_York" },
+  { label: "Sao Paulo - GMT -03:00", value: "America/Sao_Paulo" },
+  { label: "London - GMT +01:00", value: "Europe/London" },
+  { label: "Madrid - GMT +02:00", value: "Europe/Madrid" },
+  { label: "Paris - GMT +02:00", value: "Europe/Paris" },
+  { label: "Dubai - GMT +04:00", value: "Asia/Dubai" },
+  { label: "Kolkata - GMT +05:30", value: "Asia/Kolkata" },
+  { label: "Singapore - GMT +08:00", value: "Asia/Singapore" },
+  { label: "Tokyo - GMT +09:00", value: "Asia/Tokyo" },
+];
