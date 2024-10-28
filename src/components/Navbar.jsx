@@ -4,6 +4,10 @@ import argent from "../assets/argentLogo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
 import { createPortal } from "react-dom";
+import events from "../assets/event.svg";
+import community from "../assets/community.svg";
+import userSwitch from "../assets/user-switch.svg";
+// import events from "../assets/event.svg";
 
 const ConnectModal = ({ setIsOpen }) => {
   const { connect, connectors } = useConnect();
@@ -56,12 +60,31 @@ function Navbar({ classes }) {
         STARKEVENTS
       </Link>
       <ul className="gap-x-[60px] items-center lg:flex hidden">
-        <li className="flex gap-x-2 items-center">
-          <Link to={"/create-event"}>Create Event</Link>
-        </li>
-        <li className="flex gap-x-2 items-center">Your Events</li>
-        <li className="flex gap-x-2 items-center">Communities</li>
-        <li className="flex gap-x-2 items-center">Calendars</li>
+        <Link to={"/create-event"}>
+          {" "}
+          <li className="flex justify-center whitespace-nowrap items-center gap-x-2 ">
+            <img src={events} alt="image logo" />
+            <span>Create Event</span>
+          </li>
+        </Link>
+        <Link to={"/"}>
+          <li className="flex whitespace-nowrap justify-center gap-x-2 items-center">
+            <img src={events} alt="image logo" />
+            <span>Your Events</span>
+          </li>
+        </Link>
+        <Link to={"/"}>
+          <li className="flex whitespace-nowrap justify-center gap-x-2 items-center">
+            <img src={community} alt="image logo" />
+            <span>Communities</span>
+          </li>
+        </Link>
+        <Link to={"/"}>
+          <li className="flex whitespace-nowrap justify-center gap-x-2 items-center">
+            <img src={userSwitch} alt="image logo" />
+            <span>Calendars</span>
+          </li>
+        </Link>
       </ul>
       {!address ? (
         <button
