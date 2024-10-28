@@ -66,18 +66,18 @@ function HomePage() {
         )}
       <Navbar classes="absolute top-0 left-0 right-0" />
       {!address && (
-        <div className="mt-56 mx-5 ">
-          <h1 className="lg:text-[96px] sm:text-[60px] text-[40px] leading-[60px] font-black mb-[27px]">
+        <div className="mt-48 lg:mt-56 px-5 mx-auto max-w-screen-lg text-center">
+          <h1 className="text-4xl sm:text-6xl lg:text-8xl font-black mb-6 lg:mb-8 leading-tight">
             Next-Gen Ticketing <br />
-            <span className="lg:text-[40px] sm:text-[30px] text-[20px] font-medium">
+            <span className="text-2xl sm:text-4xl lg:text-5xl font-medium">
               Secure and Decentralized on StarkNet
             </span>
           </h1>
-          <p className="text-base flex flex-wrap leading-6 font-medium mb-[43px] w-[819px]">
+          <p className=" sm:text-base lg:text-lg font-medium leading-6 sm:leading-7 lg:leading-8 mb-8 sm:mb-10 lg:mb-12 mx-auto max-w-lg lg:max-w-3xl">
             Discover the future of ticketing on StarkNet. Enjoy fraud-resistant,
             transparent, and decentralized ticketing solutions that provide
             peace of mind and ease of use for every event. Step into the future
-            with us
+            with us.
           </p>
         </div>
       )}
