@@ -8,7 +8,7 @@ import events from "../assets/event.svg";
 import community from "../assets/community.svg";
 import userSwitch from "../assets/user-switch.svg";
 import burgerMenu from "../assets/burger.svg";
-// import closeMenu from "../assets/close.svg";
+import closeMenu from "../assets/close.png";
 
 const ConnectModal = ({ setIsOpen }) => {
   const { connect, connectors } = useConnect();
@@ -72,7 +72,11 @@ function Navbar({ classes }) {
           onClick={onToggleNav}
           className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900"
         >
-          <img src={burgerMenu} alt="Menu" className="h-8 w-8" />
+          <img
+            src={`${isToggle ? closeMenu : burgerMenu}`}
+            alt="Menu"
+            className="h-6 w-6"
+          />
         </button>
       </div>
 
