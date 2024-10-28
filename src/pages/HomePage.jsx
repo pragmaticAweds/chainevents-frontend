@@ -17,7 +17,7 @@ function HomePage() {
   const { address } = useAccount();
 
   return (
-    <div className="text-white h-full flex flex-col items-center text-center relative min-h-[100vh] bg-primaryBackground bg-[#1E1D1D]">
+    <div className="text-white h-full overflow-x-hidden flex flex-col items-center text-center relative min-h-[100vh] bg-primaryBackground bg-[#1E1D1D]">
       {nameModalOpen &&
         createPortal(
           <GenericModal
@@ -66,14 +66,14 @@ function HomePage() {
         )}
       <Navbar classes="absolute top-0 left-0 right-0" />
       {!address && (
-        <div className="mt-56">
-          <h1 className="text-[96px] leading-[60px] font-black mb-[27px]">
+        <div className="mt-56 mx-5 ">
+          <h1 className="lg:text-[96px] sm:text-[60px] text-[40px] leading-[60px] font-black mb-[27px]">
             Next-Gen Ticketing <br />
-            <span className="text-[40px] font-medium">
+            <span className="lg:text-[40px] sm:text-[30px] text-[20px] font-medium">
               Secure and Decentralized on StarkNet
             </span>
           </h1>
-          <p className="text-base leading-6 font-medium mb-[43px] w-[819px]">
+          <p className="text-base flex flex-wrap leading-6 font-medium mb-[43px] w-[819px]">
             Discover the future of ticketing on StarkNet. Enjoy fraud-resistant,
             transparent, and decentralized ticketing solutions that provide
             peace of mind and ease of use for every event. Step into the future
@@ -84,7 +84,7 @@ function HomePage() {
 
       {address && (
         <>
-          <div className=" z-50 md:hidden block mt-24 font-bold">
+          <div className=" z-10 md:hidden block mt-24 font-bold">
             <div className="flex justify-center items-center">
               <img src={chainImg} alt="chain event logo" />
               <h2 className="text-lg font-bold">CHAINEVENTS</h2>
