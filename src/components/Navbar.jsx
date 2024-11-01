@@ -59,7 +59,8 @@ function Navbar({ classes }) {
         <li className="flex gap-x-2 items-center">
           <Link to={"/create-event"}>Create Event</Link>
         </li>
-        <li className="flex gap-x-2 items-center">Your Events</li>
+        <li className="flex gap-x-2 items-center">
+            <Link to={"/app/your-events"}>Your Events</Link></li>
         <li className="flex gap-x-2 items-center">Communities</li>
         <li className="flex gap-x-2 items-center">Calendars</li>
       </ul>

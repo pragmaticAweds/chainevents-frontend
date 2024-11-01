@@ -7,6 +7,7 @@ import EventDetailsPage from "./pages/EventDetailsPage";
 import CreateEvent from "./pages/CreateEvent";
 import TicketsPage from "./pages/TicketsPage";
 import CommunityPage from "./pages/CommunityPage";
+import YourEvents from "./pages/YourEvents";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="create-event" element={<CreateEvent />} />
+
         <Route path="app" element={<AppLayout />}>
           <Route index element={<Navigate replace to="home" />} />
           <Route path="home" element={<DashboardPage />} />
@@ -21,6 +23,7 @@ function App() {
           <Route path="event/:eventId" element={<EventDetailsPage />} />
           <Route path="tickets" element={<TicketsPage />} />
           <Route path="community" element={<CommunityPage />} />
+          <Route path="your-events" element={<YourEvents />} />
         </Route>
       </Routes>
     </BrowserRouter>
