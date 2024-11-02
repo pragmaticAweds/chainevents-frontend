@@ -8,7 +8,7 @@ import CreateEvent from "./pages/CreateEvent";
 import TicketsPage from "./pages/TicketsPage";
 import CommunityPage from "./pages/CommunityPage";
 import Participants from "./pages/Participants";
-
+import YourEvents from "./pages/YourEvents";
 function App() {
     return (
         <BrowserRouter>
@@ -26,6 +26,8 @@ function App() {
                     <Route path="tickets" element={<TicketsPage />} />
                     <Route path="community" element={<CommunityPage />} />
                     <Route path="participants" element={<Participants />} />
+            
+                    <Route path="your-events" element={<YourEvents />} />
                 </Route>
             </Routes>
         </BrowserRouter>

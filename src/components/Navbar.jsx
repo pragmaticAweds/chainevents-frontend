@@ -92,7 +92,7 @@ function Navbar({ classes }) {
             <span>Create Event</span>
           </li>
         </Link>
-        <Link to={"/"} onClick={onToggleNav}>
+        <Link to={"/app/your-events"} onClick={onToggleNav}>
           <li className="flex whitespace-nowrap justify-center p-5 gap-x-2 items-center">
             <img src={events} alt="event logo" />
             <span>Your Events</span>
