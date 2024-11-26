@@ -35,3 +35,7 @@ body {
 .sidebarLinks li a:hover {
     background-color: #fff;
 }
+
+.custom-button-bg {
+    background-color: #1E1D1D;
+}
