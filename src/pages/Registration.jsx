@@ -24,7 +24,6 @@ const Registration = () => {
         newEventType: false,
     });
 
-    
     const openModal = (modalName) => {
         setModals({ ...modals, [modalName]: true });
     };
@@ -36,18 +35,20 @@ const Registration = () => {
     return (
         <div className="min-h-screen bg-primaryBackground text-white">
             <Navbar />
-            <div className="flex mt-7 justify-between ">
-                
-                <div className=" ml-7">
+            
+            <div className="flex flex-col md:flex-row mt-7">
+                {/* Sidebar */}
+                <div className="hidden md:block md:ml-7">
                     <Sidebar />
                 </div>
 
-                
-                <div className="flex-1 max-w-5xl mx-auto p-5  ">
+                {/* Main Content */}
+                <div className="flex-1 max-w-5xl mx-auto p-5 md:p-8">
                     
-                    <div className="flex justify-between items-center mb-8">
+                    {/* Top Buttons */}
+                    <div className="flex flex-col md:flex-row gap-4 mb-8">
                         <button
-                            className="custom-button-bg flex-1 text-white py-3 rounded-md flex items-center justify-center space-x-2"
+                            className="custom-button-bg w-full text-white py-3 rounded-md flex items-center justify-center space-x-2"
                             onClick={() => openModal('registration')} 
                         >
                             <span>Registration</span>
@@ -58,7 +59,7 @@ const Registration = () => {
                             onClose={() => closeModal('registration')}
                         />
                         <button
-                            className="custom-button-bg flex-1 text-white py-3 rounded-md flex items-center justify-center space-x-2 ml-4"
+                            className="custom-button-bg w-full text-white py-3 rounded-md flex items-center justify-center space-x-2"
                             onClick={() => openModal('eventCapacity')} 
                         >
                             <span>Event Capacity</span>
@@ -70,68 +71,66 @@ const Registration = () => {
                         />
                     </div>
 
-                    
+                    {/* Registration Questions */}
                     <div className="bg-transparent p-6 rounded-md mb-8">
                         <h2 className="text-lg font-bold mb-4">Registration Questions</h2>
                         <p className="text-white">
                             We will ask guests the following questions when they register for events.
                         </p>
 
-                
+                        {/* Personal Information */}
                         <div className="mb-6 mt-6">
                             <h3 className="text-lg font-medium flex items-center space-x-2 mb-2">
                                 <BiIdCard className="text-green-500" />
                                 <span>Personal Information</span>
                             </h3>
-                            <div className="flex space-x-4 mb-4">
-                                <div className="flex-1 custom-button-bg text-white py-3 px-4 rounded-md flex items-center">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div className="flex items-center custom-button-bg py-3 px-4 rounded-md">
                                     <BiUser className="text-gray-400 mr-2" />
                                     <input
                                         type="text"
                                         placeholder="Name"
-                                        className="bg-transparent border-none focus:outline-none text-white placeholder-gray-400"
+                                        className="bg-transparent border-none focus:outline-none text-white placeholder-gray-400 flex-1"
                                         required
                                     />
                                 </div>
-                                <div className="flex-1 custom-button-bg text-white py-3 px-4 rounded-md flex items-center">
+                                <div className="flex items-center custom-button-bg py-3 px-4 rounded-md">
                                     <BiEnvelope className="text-gray-400 mr-2" />
                                     <input
                                         type="email"
                                         placeholder="Email"
-                                        className="bg-transparent border-none focus:outline-none text-white placeholder-gray-400"
+                                        className="bg-transparent border-none focus:outline-none text-white placeholder-gray-400 flex-1"
                                         required
                                     />
                                 </div>
-                                <div className="flex-1 custom-button-bg text-white py-3 px-4 rounded-md flex items-center relative justify-between">
-                                    <div className="flex items-center space-x-2">
-                                        <MdOutlinePhoneInTalk className="text-gray-400" />
-                                        <span className='text-gray-400'>Phone</span>
-                                    </div>
-                                    <select className="custom-button-bg border-none focus:outline-none text-gray-400 absolute inset-0 opacity-0 cursor-pointer">
+                                <div className="relative flex items-center custom-button-bg py-3 px-4 rounded-md">
+                                    <MdOutlinePhoneInTalk className="text-gray-400 mr-2" />
+                                    <select
+                                        className="bg-transparent border-none focus:outline-none text-white appearance-none flex-1"
+                                    >
                                         <option>Off</option>
                                         <option>Optional</option>
                                         <option>Required</option>
                                     </select>
-                                    <span className="text-gray-400"> &#x25B2; &#x25BC;</span>
                                 </div>
                             </div>
                         </div>
 
-                    
+                        {/* Web3 Identity */}
                         <div className="mb-6">
                             <h3 className="text-lg font-medium flex items-center space-x-2 mb-2">
                                 <LuWallet className="text-purple-500" />
                                 <span>Web3 Identity</span>
                             </h3>
-                            <div className="flex space-x-4 mb-4">
-                                <div className="flex-1 custom-button-bg text-white py-3 px-4 rounded-md flex items-center justify-between">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="flex items-center justify-between custom-button-bg py-3 px-4 rounded-md">
                                     <div className="flex items-center space-x-2">
                                         <SiEthereum className="text-white" />
                                         <span>ETH Address</span>
                                     </div>
                                     <span className="text-gray-400">Off</span>
                                 </div>
-                                <div className="flex-1 custom-button-bg text-white py-3 px-4 rounded-md flex items-center justify-between">
+                                <div className="flex items-center justify-between custom-button-bg py-3 px-4 rounded-md">
                                     <div className="flex items-center space-x-2">
                                         <SiSolana className="text-white" />
                                         <span>SOL Address</span>
@@ -141,7 +140,7 @@ const Registration = () => {
                             </div>
                         </div>
 
-                        
+                        {/* Custom Questions */}
                         <div className="mb-6">
                             <h3 className="text-lg font-medium flex items-center space-x-2 mb-2">
                                 <LuFileQuestion className="text-blue-500" />
@@ -161,9 +160,9 @@ const Registration = () => {
                         </div>
                     </div>
 
-        
-                    <div className="mb-4 flex items-center">
-                        <h2 className="text-xl font-semibold mb-2">Tickets</h2>
+                    {/* Tickets Section */}
+                    <div className="mb-4 flex flex-col md:flex-row items-center">
+                        <h2 className="text-xl font-semibold mb-2 md:mb-0">Tickets</h2>
                         <button
                             className="bg-gray-500 text-white py-3 px-4 rounded-md flex items-center space-x-2 ml-auto"
                             onClick={() => openModal('newEventType')} 
@@ -176,12 +175,12 @@ const Registration = () => {
                             onClose={() => closeModal('newEventType')}
                         />
                     </div>
-                    <div className="flex-1 custom-button-bg text-white py-3 px-4 rounded-md flex items-center justify-between">
+                    <div className="custom-button-bg py-3 px-4 rounded-md flex items-center justify-between">
                         <span>Standard Free</span>
                         <span>0 Registered</span>
                     </div>
 
-                    
+                    {/* Registration Email */}
                     <div className="mt-8 bg-inherit p-6 rounded-md mb-16">
                         <h2 className="text-lg font-bold mb-4">Registration Email</h2>
                         <p className="text-white mb-4">
