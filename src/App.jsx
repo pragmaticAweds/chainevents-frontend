@@ -9,12 +9,16 @@ import TicketsPage from "./pages/TicketsPage";
 import CommunityPage from "./pages/CommunityPage";
 import Participants from "./pages/Participants";
 import YourEvents from "./pages/YourEvents";
+import ProfilePage from "./pages/ProfilePage";
+
 function App() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="create-event" element={<CreateEvent />} />
+
+                <Route path="profile" element={<ProfilePage />} />
                 <Route path="app" element={<AppLayout />}>
                     <Route index element={<Navigate replace to="home" />} />
                     <Route path="home" element={<DashboardPage />} />
@@ -23,6 +27,7 @@ function App() {
                         path="event/:eventId"
                         element={<EventDetailsPage />}
                     />
+                    
                     <Route path="tickets" element={<TicketsPage />} />
                     <Route path="community" element={<CommunityPage />} />
                     <Route path="participants" element={<Participants />} />
