@@ -7,3 +7,6 @@ Create event design Screen: https://www.figma.com/design/Z1IebD0dM4HMDDnlxzhV6R/
 Logo Update: https://drive.google.com/drive/folders/1w9e8LeNqYv0R8d6RvFaPNxsTIdJmNRIJ?usp=drive_link
 
 Design Registration and Insight Screens - https://www.figma.com/design/glhAT4GVzQtPJTXJXQw8uB/Chainevents?node-id=0-1&t=QNFH00jTteXS6b8T-1
+
+Profile screen: https://www.figma.com/design/Z1IebD0dM4HMDDnlxzhV6R/CHAINEVENTS-DRAFT?node-id=1438-2088&node-type=canvas&t=ZMpOj4adCk8E4Fjz-0
+
