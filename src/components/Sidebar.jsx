@@ -36,7 +36,7 @@ function Sidebar() {
                 </li>
                 <li>
                     <NavLink
-                        to={"/app/community"}
+                        to={"/app/insight"}
                         className={
                             "flex items-center gap-x-4 w-full py-3 px-7 rounded-full"
                         }
