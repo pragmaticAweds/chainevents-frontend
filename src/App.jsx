@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AppLayout from "./components/AppLayout";
 import DashboardPage from "./pages/DashboardPage";
+import Registration from "./pages/Registration";
 import EventsPage from "./pages/EventsPage";
 import EventDetailsPage from "./pages/EventDetailsPage";
 import CreateEvent from "./pages/CreateEvent";
@@ -17,8 +18,8 @@ function App() {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="create-event" element={<CreateEvent />} />
-
                 <Route path="profile" element={<ProfilePage />} />
+                <Route path="Registration" element={<Registration/>} />
                 <Route path="app" element={<AppLayout />}>
                     <Route index element={<Navigate replace to="home" />} />
                     <Route path="home" element={<DashboardPage />} />
