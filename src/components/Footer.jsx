@@ -8,9 +8,10 @@ import { Link } from "react-router-dom";
 const Footer = () => {
     return (
         <div className=" absolute bottom-2 w-full px-5 lg:px-[80px]">
-            <hr />
+            <div className="h-[0.5px] bg-[#C3B07A] w-full" />
+
             <div className="flex justify-between my-2 sm:my-4 items-center">
-                <h1>STARKEVENTS</h1>
+                <h1 className="text-white">STARKEVENTS</h1>
                 <div className=" flex justify-center items-center space-x-4">
                     <Link to={"/"}>
                         <img src={whatsapp} alt="image" />

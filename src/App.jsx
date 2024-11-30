@@ -10,6 +10,7 @@ import TicketsPage from "./pages/TicketsPage";
 import CommunityPage from "./pages/CommunityPage";
 import Participants from "./pages/Participants";
 import YourEvents from "./pages/YourEvents";
+import InsightPage from "./pages/InsightPage";
 import ProfilePage from "./pages/ProfilePage";
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
                     <Route index element={<Navigate replace to="home" />} />
                     <Route path="home" element={<DashboardPage />} />
                     <Route path="events" element={<EventsPage />} />
+                    <Route path="insight" element={<InsightPage />} />
+
                     <Route
                         path="event/:eventId"
                         element={<EventDetailsPage />}
@@ -32,7 +35,6 @@ function App() {
                     <Route path="tickets" element={<TicketsPage />} />
                     <Route path="community" element={<CommunityPage />} />
                     <Route path="participants" element={<Participants />} />
-            
                     <Route path="your-events" element={<YourEvents />} />
                 </Route>
             </Routes>
