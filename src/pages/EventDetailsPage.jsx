@@ -4,7 +4,83 @@ import HostedStrip from "../components/HostedStrip";
 import attendees from "../assets/attendees.svg";
 import banner from "../assets/sampleBanner.png";
 import location from "../assets/calendar-tick.svg";
+import { contractAddress } from "../utils/address";
+import { contractAbi } from "../abi/abi";
+import { useReadContract } from "@starknet-react/core";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
 function EventDetailsPage() {
+  const [eventData, setEventData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const { eventId } = useParams();
+
+  // Create proper uint256 format for event_id
+  const eventIdBigInt = {
+    type: "struct",
+    low: BigInt(eventId || "1"),
+    high: BigInt(0),
+  };
+
+  const { data, error: contractError } = useReadContract({
+    functionName: "event_details",
+    args: [eventIdBigInt],
+    abi: contractAbi,
+    address: contractAddress,
+    watch: true,
+  });
+
+  console.log(data, "Data_____________data");
+
+  const processEventData = (rawData) => {
+    if (!rawData) return null;
+
+    return {
+      name: rawData.name?.replace(/"/g, "") || "Unknown Event",
+      location: rawData.location || "Unknown Location",
+      organizer: rawData.organizer?.toString() || "Unknown Organizer",
+      totalRegister: Number(rawData.total_register) || 0,
+      totalAttendees: Number(rawData.total_attendees) || 0,
+      eventType: rawData.event_type?.variant === "Free" ? "Free" : "Paid",
+      isClosed: rawData.is_closed === true,
+      paidAmount: Number(rawData.paid_amount) || 0,
+    };
+  };
+
+  useEffect(() => {
+    if (contractError) {
+      console.error("Contract Error:", contractError);
+      setError(contractError);
+      setIsLoading(false);
+    }
+    if (data) {
+      const processed = processEventData(data);
+      console.log("Processed event data:", processed);
+      setEventData(processed);
+      setIsLoading(false);
+    }
+  }, [data, contractError]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-white">Loading event details...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="p-6 bg-red-100 text-red-700">
+          Error fetching event details: {error.message}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-[2.6fr_1fr] gap-x-4">
       <div className="relative bg-[#0D0C0C] w-full h-[85vh] overflow-y-scroll pt-[102px] px-[49px] pb-[56px] text-white">
@@ -13,11 +89,13 @@ function EventDetailsPage() {
             <img src={leftArr} alt="" />
             Back
           </button>
-          <h6>Starknet event Ghana</h6>
+          <h6>{eventData?.name || "chainEvent"}</h6>
         </div>
         <img src={banner} className="w-full" alt="" />
 
-        <h3 className="text-2xl font-bold mt-4">Starknet Lagos conference</h3>
+        <h3 className="text-2xl font-bold mt-4">
+          {eventData?.name || "chainEvent"}
+        </h3>
         <h4 className="text-base text-[#878787]">
           Exploring starknet ecosystem
         </h4>
@@ -28,7 +106,7 @@ function EventDetailsPage() {
           </div>
           <div className="flex items-center gap-x-2">
             <img src={location} alt="" />
-            <h6>Lagos Nigeria</h6>
+            <h6>{eventData?.location || "Loading location..."}</h6>
           </div>
         </div>
         <div className="pt-4 text-white text-[12px]">
@@ -104,7 +182,8 @@ function EventDetailsPage() {
         <div className="text-base flex flex-col gap-y-4 pb-4 border-b-[0.5px] border-b-[#FAA2C1] mb-4">
           <h3>
             {" "}
-            <span className="text-[#878787] font-medium">Format:</span> Virtual
+            <span className="text-[#878787] font-medium">Format:</span>{" "}
+            {eventData?.eventType}
           </h3>
           <h3>
             <span className="text-[#878787] font-medium">Main link: </span>
@@ -119,7 +198,7 @@ function EventDetailsPage() {
           <h4 className="flex items-center gap-x-1 text-xs font-medium text-[#878787] mb-2">
             <img src={locationIcon} alt="" /> Location
           </h4>
-          <h3>SwitzerlandInterlaken, Switzerland</h3>
+          <h3>{eventData?.location || "lagos"}</h3>
         </div>
         <div className="text-base flex flex-col pb-4 border-b-[0.5px] border-b-[#FAA2C1] mb-6">
           <h4 className="text-xs font-medium mb-2 text-[#878787]">Hosted by</h4>
@@ -131,14 +210,17 @@ function EventDetailsPage() {
         </div>
         <div className="text-base flex flex-col pb-4 border-b-[0.5px] border-b-[#FAA2C1]">
           <h4 className="text-xs font-medium mb-2 ">
-            897 Attendees Registered
+            {eventData?.totalRegister || 0} Attendees Registered
           </h4>
           <img src={attendees} className="w-[122px] mb-1" alt="" />
           <h6 className="text-[8px] font-medium">
-            Joel Adewole, Zaff and 937 others
+            Joel Adewole, Zaff and{" "}
+            {Math.max((eventData?.totalRegister || 0) - 2, 0)} others
           </h6>
         </div>
-        <h6 className="mb-2 mt-4">897 Tickets sold</h6>
+        <h6 className="mb-2 mt-4">
+          {eventData?.totalRegister || 0} Tickets sold
+        </h6>
         <h6>3 Reclaimed</h6>
       </div>
     </div>
