@@ -59,7 +59,7 @@ export function useContractWriteUtility(
     error,
   } = useSendTransaction({ calls });
 
-  const { isLoading: waitIsLoading, data: waitData } = useTransactionReceipt({
+  const { isLoading: waitIsLoading, data: waitData,isSuccess } = useTransactionReceipt({
     hash: writeData?.transaction_hash,
     watch: true,
   });
@@ -72,5 +72,6 @@ export function useContractWriteUtility(
     waitData,
     calls,
     error,
+    isSuccess
   };
 }

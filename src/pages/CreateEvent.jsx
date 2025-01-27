@@ -16,10 +16,10 @@ import SetCapacityModal from "../components/SetCapacityModal";
 import { timezones } from "../utils/data";
 import DateMobilePicker from "../components/DateMobilePicker";
 import { formatDisplayDate, formatTimeWithAmPm } from "../utils/helpers";
-import { useContract, useSendTransaction } from "@starknet-react/core";
 import { contractAbi } from "../abi/abi";
 import { contractAddress } from "../utils/address";
 import { useNavigate } from "react-router-dom";
+import { useContractWriteUtility } from "../utils/helpers";
 
 function CreateEvent() {
   const [isEditingPrice, setIsEditingPrice] = useState(false);
@@ -71,24 +71,12 @@ function CreateEvent() {
     setCapacity(capacity);
     setIsEditingCapacity(false);
   }
-
-  const { contract } = useContract({
-    abi: contractAbi,
-    address: contractAddress,
-  });
-
-  //TODO 6.1 - Contract Call Array
-  const calls = useMemo(() => {
-    const isInputValid = name.length > 0 && location.length > 0;
-
-    if (!isInputValid) return [];
-    return [contract.populate("add_event", [name, location])];
-  }, [contract, name, location]);
-
-  const { sendAsync: writeAsync, isSuccess } = useSendTransaction({
-    calls: calls,
-  });
-
+  const { writeAsync, isSuccess } = useContractWriteUtility(
+    "add_event",
+    [name, location],
+    contractAbi,
+    contractAddress
+  );
   async function handleSubmit() {
     if (!name && !location) return;
     await writeAsync();
