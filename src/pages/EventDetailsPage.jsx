@@ -6,15 +6,12 @@ import banner from "../assets/sampleBanner.png";
 import location from "../assets/calendar-tick.svg";
 import { contractAddress } from "../utils/address";
 import { contractAbi } from "../abi/abi";
-import { useReadContract } from "@starknet-react/core";
+import { useContractFetch } from "../utils/helpers";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function EventDetailsPage() {
   const [eventData, setEventData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   const { eventId } = useParams();
 
   // Create proper uint256 format for event_id
@@ -24,13 +21,12 @@ function EventDetailsPage() {
     high: BigInt(0),
   };
 
-  const { data, error: contractError } = useReadContract({
-    functionName: "event_details",
-    args: [eventIdBigInt],
-    abi: contractAbi,
-    address: contractAddress,
-    watch: true,
-  });
+  const { data, isLoading, error, isFetching } = useContractFetch(
+    contractAbi,
+    "event_details",
+    contractAddress,
+    [eventIdBigInt]
+  );
 
   console.log(data, "Data_____________data");
 
@@ -50,20 +46,14 @@ function EventDetailsPage() {
   };
 
   useEffect(() => {
-    if (contractError) {
-      console.error("Contract Error:", contractError);
-      setError(contractError);
-      setIsLoading(false);
-    }
     if (data) {
       const processed = processEventData(data);
       console.log("Processed event data:", processed);
       setEventData(processed);
-      setIsLoading(false);
     }
-  }, [data, contractError]);
+  }, [data]);
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-white">Loading event details...</div>
