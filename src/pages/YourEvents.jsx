@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Provider, Contract } from 'starknet';
-import contractABI from '../constants/contractABI.json';
+import { contractAbi as contractABI } from '../abi/abi.js';
 import globe from '../assets/globe.svg';
 import eventImg from '../assets/eventImg.jpeg';
 import timeImg from '../assets/timeImg.svg';
 import globeImg from '../assets/globeImg.svg';
 import locationImg from '../assets/locationImg.svg';
 import avatars from '../assets/avatars.jpeg';
-
-const contractAddress = '0x00c1bf18fbad102df788918aea78c48cea5637a9be1f2ddc8fcf0839d9dc8abb';
+import {contractAddress} from '../utils/address.js';
 
 const YourEvents = () => {
     const [events, setEvents] = useState([]);
