@@ -2,18 +2,20 @@ import { useState } from "react";
 import GenericModal from "../components/GenericModal";
 import Navbar from "../components/Navbar";
 import { createPortal } from "react-dom";
-import { Link, useNavigate } from "react-router-dom";
+import Link from 'next/link'
 import { useAccount } from "@starknet-react/core";
 import Footer from "../components/Footer";
 import chainImg from "../assets/chainevtlogo.svg";
 import calender from "../assets/calendar-02.svg";
 import addCircle from "../assets/add-circle.svg";
+import { useRouter } from "next/navigation";
 
 function HomePage() {
   const [username, setUsername] = useState("");
   const [nameModalOpen, setNameModalOpen] = useState(false);
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const router = useRouter()
   const { address } = useAccount();
 
   return (
@@ -56,7 +58,7 @@ function HomePage() {
             <button
               className="text-sm py-[16px] w-[218px] rounded-[5px] font-medium text-white bg-[#C6304F] mt-[31px]"
               onClick={() => {
-                navigate("app/home");
+                router.push("app/home");
               }}
             >
               Continue
@@ -116,7 +118,7 @@ function HomePage() {
               <span className="font-semibold">Host one</span>
             </p>
 
-            <Link to={"/create-event"} className="">
+            <Link href={"/create-event"} className="">
               <div className="flex border border-white bg-black py-[18px] gap-3 px-[40px] sm:px-[69px] rounded-[5px] text-base font-medium justify-center items-center">
                 <img src={addCircle} alt="image" />
                 <span> Create Event</span>

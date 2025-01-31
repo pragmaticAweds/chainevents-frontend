@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import purse from "../assets/purse.png";
 import disconnect from "../assets/disconnect.png";
 import iconAvatar from "../assets/iconAvatar.png";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 export const AccountSidebar = ({ closeFunc, userAddr, disconnectFunc }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   return (
     <motion.div
       initial={{ x: "100%" }} // Initial position (off-screen to the right)
@@ -36,7 +36,7 @@ export const AccountSidebar = ({ closeFunc, userAddr, disconnectFunc }) => {
           </div>
           <div
             className="flex space-x-1 px-2 py-5 cursor-pointer"
-            onClick={() => navigate("/profile")}
+            onClick={() => router.push("/profile")}
           >
             <img src={iconAvatar} alt="avatar icon" className="block" />
             <div className="text-sm flex flex-col space-y-1 items-start">

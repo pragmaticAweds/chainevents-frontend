@@ -1,3 +1,5 @@
+'use client'
+
 /* eslint-disable react/prop-types */
 import { sepolia } from "@starknet-react/chains";
 import {
@@ -19,7 +21,7 @@ export function Providers({ children }) {
     <StarknetConfig
       chains={[sepolia]}
       provider={jsonRpcProvider({
-        rpc: () => ({ nodeUrl: import.meta.env.VITE_PUBLIC_RPC_URL }),
+        rpc: () => ({ nodeUrl: process.env.NEXT_PUBLIC_RPC_URL }),
       })}
       connectors={connectors}
       explorer={voyager}
