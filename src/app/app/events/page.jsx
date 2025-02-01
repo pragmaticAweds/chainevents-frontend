@@ -35,7 +35,7 @@ function EventsPage() {
           >
             <div className="flex justify-between items-center">
               <div className="flex space-x-3">
-                <Image src={'/assets/eventImg.jpeg'} alt="event-img" width={30} height={30}/>
+                <Image src={'/assets/eventImg.jpeg'} alt="event-img" width={200} height={300}/>
                 <div className="flex flex-col space-y-1">
                   <h1 className="text-[#D9D9D9]">
                     <Image src={'/assets/timeImg.svg'} alt="time-img" className="inline" width={30} height={30}/> 10:

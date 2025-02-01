@@ -15,7 +15,7 @@ const YourEvents = () => {
             <div className='flex justify-between my-5 items-center'>
                 <h1 className="text-3xl text-white">Event Name</h1>
                 <button className='bg-[#1e1d1d] text-white w-[112px] height-[32px] flex items-center p-2 justify-between'>
-                    <Image src={'/assets/globe.svg'} className='inline' width={120} height={32} alt=''/>
+                    <Image src={'/assets/globe.svg'} className='inline' width={200} height={200} alt=''/>
                     <span>Public</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth={'2'} strokeLinecap="round" strokeLinejoin="round" />
@@ -25,7 +25,7 @@ const YourEvents = () => {
 
             </div>
             <div>
-                {events.map(event => <EventCard isGoing={event } />)}
+                {events.map((event, index) => <EventCard isGoing={event } key={index}/>)}
             </div>
         </div>
     )
