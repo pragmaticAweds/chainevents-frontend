@@ -1,10 +1,8 @@
 'use client'
 
 import { useState } from "react";
-import Chart from "../../../assets/chart.png";
-import Speaker from "../../../assets/speaker.png";
-import Mail from "../../../assets/mail.png";
 import TimeIcon from "../../../icons/TimeIcon";
+import Image from "next/image";
 
 function InsightPage() {
   const [time, setTime] = useState("Past 7 Days");
@@ -47,7 +45,7 @@ function InsightPage() {
 
           <div className="bg-[#1E1D1D] md:-w[739px] h-auto rounded-[14px] px-20 border-[0.4px] border-[#D9D9D9CC]">
             <div className=" w-full mt-5  ">
-              <img src={Chart} className="w-full h-full" alt="cahrt" />
+              <Image src={'/assets/chart.png'} className="w-full h-full" alt="chart" width={750} height={750}/>
             </div>
 
             <div className="grid grid-cols-3 py-10  w-full h-full">
@@ -156,7 +154,7 @@ function InsightPage() {
 
           <div className="py-20 flex text-center flex-col space-y-4 items-center justify-center">
             <div className="">
-              <img className="w-full h-full" src={Speaker} alt="speaker" />
+              <Image className="w-full h-full" src={'/assets/speaker.png'} alt="speaker" width={30} height={30}/>
             </div>
             <div className="space-y-4">
               <p className="text-[20px] text-white font-medium">No Referrals</p>
@@ -182,7 +180,7 @@ function InsightPage() {
 
           <div className="py-20 flex text-center space-y-4 flex-col items-center justify-center">
             <div className="">
-              <img className="w-full h-full" src={Mail} alt="speaker" />
+              <Image className="w-full h-full" src={'/assets/mail.png'} alt="speaker" width={30} height={30}/>
             </div>
             <div className="space-y-4">
               <p className="text-[20px] text-white font-medium">

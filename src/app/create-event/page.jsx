@@ -1,11 +1,12 @@
 'use client'
 
 import Navbar from "../../components/Navbar";
-import banner from "../../assets/testEventBanner.png";
+// import banner from "../../assets/testEventBanner.png";
+
 import EditIcon from "../../icons/EditIcon";
 import Select from "../../components/Select";
 import GlobeIcon from '../../icons/GlobeIcon';
-import timelinePath from "../../assets/timeline-path.svg";
+// imporImageimelinePath from '/assets/timeline-path.svg'../../assets/timeline-path.svgwidth={30} height={30}";
 import MapPinIcon from "../../icons/MapPinIcon";
 import FileIcon from "../../icons/FileIcon";
 import ApprovalIcon from "../../icons/ApprovalIcon";
@@ -22,6 +23,7 @@ import { contractAbi } from "../../abi/abi";
 import { contractAddress } from "../../utils/address";
 import { useContractWriteUtility } from "../../utils/helpers";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 function CreateEvent() {
   const [isEditingPrice, setIsEditingPrice] = useState(false);
@@ -130,7 +132,8 @@ function CreateEvent() {
       <Navbar />
       <div className="flex justify-center px-6">
         <div className="lg:max-w-[740px] w-full">
-          <img src={banner} className="w-full h-[302px] lg:h-[154px]" alt="" />
+          <Image src={'/assets/testEventBanner.png'} className="w-full h-[302px] lg:h-[154px]" alt="banner" width={740} height={320}/>
+
           <div className="p-2 lg:px-3 lg:py-2 bg-white mt-4 flex justify-between items-center">
             <div className="flex items-center gap-x-2 text-black font-medium text-xs lg:text-sm">
               <div className="bg-[#1E1D1D] w-[58px] h-[34px] rounded-sm"></div>
@@ -176,7 +179,7 @@ function CreateEvent() {
           </div>
           <div className="grid grid-cols-[1fr] lg:grid-cols-[2.3fr_1fr] gap-x-4">
             <div className="border-[0.3px] border-white p-3 rounded flex gap-x-2 items-center">
-              <img src={timelinePath} className="h-[50px]" alt="" />
+              <Image src={'/assets/timeline-path.svg'} className="h-[50px]" alt="" width={30} height={30}/>
               <div className="flex-grow hidden lg:inline-block">
                 <div className="w-full flex justify-between items-center mb-1">
                   <h4 className="text-sm font-semibold text-white">Start</h4>

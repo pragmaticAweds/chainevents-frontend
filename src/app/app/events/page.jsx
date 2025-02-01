@@ -3,11 +3,12 @@
 import { useContractFetch } from "../../../utils/helpers";
 import { contractAbi } from "../../../abi/abi";
 import { contractAddress } from "../../../utils/address";
-import eventImg from "../../../assets/eventImg.jpeg";
-import avatars from "../../../assets/avatars.jpeg";
-import locationImg from "../../../assets/locationImg.svg";
-import timeImg from "../../../assets/timeImg.svg";
-import globeImg from "../../../assets/globeImg.svg";
+import Image from "next/image";
+// import eventImg from "../../../assets/eventImg.jpeg";
+// import avatars from "../../../assets/avatars.jpeg";
+// import locationImg from "../../../assets/locationImg.svg";
+// import timeImg from "../../../assets/timeImg.svg";
+// import globeImg from "../../../assets/globeImg.svg";
 
 
 function EventsPage() {
@@ -34,19 +35,19 @@ function EventsPage() {
           >
             <div className="flex justify-between items-center">
               <div className="flex space-x-3">
-                <img src={eventImg} alt="event-img" />
+                <Image src={'/assets/eventImg.jpeg'} alt="event-img" width={30} height={30}/>
                 <div className="flex flex-col space-y-1">
                   <h1 className="text-[#D9D9D9]">
-                    <img src={timeImg} alt="time-img" className="inline" /> 10:
+                    <Image src={'/assets/timeImg.svg'} alt="time-img" className="inline" width={30} height={30}/> 10:
                     00 AM
                   </h1>
                   <h1 className="text-white text-xl">{eventData.name}</h1>
                   <h1 className="text-[#D9D9D9]">
-                    <img src={globeImg} alt="time-img" className="inline" />{" "}
+                    <Image src={'/assets/globeImg.svg'} alt="time-img" className="inline" width={30} height={30}/>{" "}
                     {eventData?.location}
                   </h1>
                   <h1 className="text-[#D9D9D9]">
-                    <img src={locationImg} alt="time-img" className="inline" />{" "}
+                    <Image src={'/assets/locationImg.svg'} alt="time-img" className="inline" width={30} height={30}/>{" "}
                     Colab Innovation Campus
                   </h1>
                   <div className="flex space-x-3 items-center">
@@ -75,7 +76,7 @@ function EventsPage() {
                         Going
                       </button>
                     )}
-                    <img src={avatars} alt="avatars" />
+                    <Image src={'/assets/avatars.jpeg'} alt="avatars" width={30} height={30}/>
                   </div>
                 </div>
               </div>

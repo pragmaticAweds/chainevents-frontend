@@ -1,10 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
-import whatsapp from "../assets/whatsapp.svg";
-import x from "../assets/x.svg";
-import discord from "../assets/discord.svg";
+// import whatsapp from "../assets/whatsapp.svg";
+// import x from "../assets/x.svg";
+// import discord from "../assets/discord.svg";
 // import { Link } from "react-router-dom";
 import Link from 'next/link'
+import Image from "next/image";
 
 const Footer = () => {
     return (
@@ -15,13 +16,16 @@ const Footer = () => {
                 <h1 className="text-white">STARKEVENTS</h1>
                 <div className=" flex justify-center items-center space-x-4">
                     <Link href={"/"}>
-                        <img src={whatsapp} alt="image" />
+                        {/* <img src={whatsapp} alt="image" /> */}
+                        <Image src={'/assets/whatsapp.svg'} width={20} height={20} alt="whatsapp"/>
                     </Link>
                     <Link href={"/"}>
-                        <img src={x} alt="image" />
+                        {/* <img src={x} alt="image" /> */}
+                        <Image src={'/assets/x.svg'} width={20} height={20} alt="x"/>
                     </Link>
                     <Link href={"/"}>
-                        <img src={discord} alt="image" />
+                        {/* <img src={discord} alt="image" /> */}
+                        <Image src={'/assets/discord.svg'} width={20} height={20} alt="discord"/>
                     </Link>
                 </div>
             </div>

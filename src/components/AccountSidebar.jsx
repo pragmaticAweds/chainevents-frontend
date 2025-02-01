@@ -1,8 +1,11 @@
+'use client'
+
 import React from "react";
 import { motion } from "framer-motion";
-import purse from "../assets/purse.png";
-import disconnect from "../assets/disconnect.png";
-import iconAvatar from "../assets/iconAvatar.png";
+// import purse from "../assets/purse.png";
+// import disconnect from "../assets/disconnect.png";
+// import iconAvatar from "../assets/iconAvatar.png";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export const AccountSidebar = ({ closeFunc, userAddr, disconnectFunc }) => {
@@ -21,13 +24,15 @@ export const AccountSidebar = ({ closeFunc, userAddr, disconnectFunc }) => {
           <div className="flex text-xs justify-between px-2 py-5">
             <div className="flex space-x-1 items-center">
               <img src={purse} alt="purse icon" className="block" />
+              <Image src={'/assets/purse.png'} />
               <p>Change wallet</p>
             </div>
             <button
               className="flex space-x-1 items-center"
               onClick={disconnectFunc}
             >
-              <img src={disconnect} alt="disconnect icon" className="block" />
+              {/* <img src={disconnect} alt="disconnect icon" className="block" /> */}
+              <Image src={'/assets/disconnect.png'} />
               <span>Disconnect wallet</span>
             </button>
           </div>
@@ -38,7 +43,8 @@ export const AccountSidebar = ({ closeFunc, userAddr, disconnectFunc }) => {
             className="flex space-x-1 px-2 py-5 cursor-pointer"
             onClick={() => router.push("/profile")}
           >
-            <img src={iconAvatar} alt="avatar icon" className="block" />
+            {/* <img src={iconAvatar} alt="avatar icon" className="block" /> */}
+            <Image src={'/assets/iconAvatar.png'} />
             <div className="text-sm flex flex-col space-y-1 items-start">
               <p className="block text-[#C3B07A]">Team INFURA</p>
               <p className="block">{userAddr}</p>

@@ -1,10 +1,11 @@
 import React from "react";
 import Button from "./Button";
-import writeIcon from "../assets/tabler_edit.svg";
-import editIcon from "../assets/editIcon.svg";
-import avatar1 from "../assets/avatar1.png";
-import avatar2 from "../assets/avatar2.png";
-import avatar3 from "../assets/avatar3.png";
+// import writeIcon from "../assets/tabler_edit.svg";
+// import editIcon from "../assets/editIcon.svg";
+// import avatar1 from "../assets/avatar1.png";
+// import avatar2 from "../assets/avatar2.png";
+// import avatar3 from "../assets/avatar3.png";
+import Image from "next/image";
 
 const HostsCard = () => {
     return (
@@ -14,7 +15,7 @@ const HostsCard = () => {
                     <h3 className="my-3">Hosts</h3>
                     <div className="w-[10%]">
                         <Button bgColor="#D4D4D4">
-                            <img src={writeIcon} alt="write-icon" />
+                            <img src={'/assets/tabler_edit.svg'} alt="write-icon" />
                         </Button>
                     </div>
                 </div>
@@ -26,17 +27,17 @@ const HostsCard = () => {
                 <HostLine
                     pillText="Creator"
                     pillType="green"
-                    hostLineImg={avatar1}
+                    hostLineImg={'/assets/avatar1.png'}
                 />
                 <HostLine
                     pillText="Manager"
                     pillType="yellow"
-                    hostLineImg={avatar2}
+                    hostLineImg={'/assets/avatar2.png'}
                 />
                 <HostLine
                     pillText="Manager"
                     pillType="yellow"
-                    hostLineImg={avatar3}
+                    hostLineImg={'/assets/avatar3.png'}
                 />
             </div>
         </div>
@@ -48,7 +49,7 @@ const HostLine = ({ pillText, hostLineImg, pillType }) => {
         <>
             <div className="flex justify-between my-3">
                 <div className="flex space-x-3 items-center">
-                    <img src={hostLineImg} alt="hostlineimage" />
+                    <Image src={hostLineImg} alt="hostlineimage" width={30} height={30}/>
                     <p>Teaminfuralegend </p>
                     <p className="text-sm text-[#D9D9D9CC]">
                         taminfuraweb3@gmail.com
@@ -64,7 +65,7 @@ const HostLine = ({ pillText, hostLineImg, pillType }) => {
                     </span>
                 </div>
                 <button>
-                    <img src={editIcon} alt="edit-icon" />
+                    <Image src={'/assets/tabler_edit.svg'} alt="edit-icon" width={30} height={30}/>
                 </button>
             </div>
             <hr />
