@@ -1,3 +1,5 @@
+'use client'
+
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import argent from "../assets/argentLogo.svg";
