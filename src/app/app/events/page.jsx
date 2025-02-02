@@ -4,11 +4,6 @@ import { useContractFetch } from "../../../utils/helpers";
 import { contractAbi } from "../../../abi/abi";
 import { contractAddress } from "../../../utils/address";
 import Image from "next/image";
-// import eventImg from "../../../assets/eventImg.jpeg";
-// import avatars from "../../../assets/avatars.jpeg";
-// import locationImg from "../../../assets/locationImg.svg";
-// import timeImg from "../../../assets/timeImg.svg";
-// import globeImg from "../../../assets/globeImg.svg";
 
 
 function EventsPage() {
