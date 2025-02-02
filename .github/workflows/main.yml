@@ -1,0 +1,35 @@
+name: Next.js CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm' # Use 'yarn' if you're using Yarn
+
+      - name: Install Dependencies
+        run: npm install # Use 'yarn install' or 'pnpm install' if needed
+
+      - name: Run Linter
+        run: npm run lint # Skip if you don't have linting set up
+
+      - name: Run Tests
+        run: npm test # Ensure you have tests configured in package.json
+
+      - name: Build Next.js App
+        run: npm run build
