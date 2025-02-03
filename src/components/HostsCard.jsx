@@ -23,7 +23,7 @@ const HostsCard = () => {
           Add Host
         </button>
       </div>
-      <div className="mt-5 border border-white px-4 py-[14px] pb-0 rounded flex flex-col gap-y-[14px] rounded">
+      <div className="mt-5 border border-white px-4 py-[14px] pb-0 rounded flex flex-col gap-y-[14px]">
         <HostLine
           pillText="Creator"
           pillType="green"
