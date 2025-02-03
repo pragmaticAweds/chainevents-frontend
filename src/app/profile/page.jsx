@@ -1,11 +1,14 @@
+'use client'
+
 import React from "react";
-import Navbar from "../components/Navbar";
-import Location from "../assets/location.svg";
-import Globe from "../assets/globeImg.svg";
-import Time from "../assets/timeImg.svg";
-import ProfileImage from "../assets/profileImg.png";
-import EventImage from "../assets/eventImage.png";
-import Footer from "../components/Footer";
+import Navbar from "../../components/Navbar"
+// import Location from "../../assets/location.svg";
+// import Globe from "../../assets/globeImg.svg";
+// import Time from "../../assets/timeImg.svg";
+// import ProfileImage from "../../assets/profileImg.png";
+// import EventImage from "../../assets/eventImage.png";
+import Footer from "../../components/Footer";
+import Image from "next/image";
 
 
 // Event Card Component
@@ -15,7 +18,7 @@ const EventCard = ({ title, presenter, address, location, time }) => {
         {/* Image and Content */}
         <div className="flex items-start space-x-2">
           {/* Event Image */}
-          <img src={EventImage} alt="Event" className="w-20 h-20 rounded-sm" />
+          <Image src={'/assets/eventImage.png'} alt="Event" className="w-20 h-20 rounded-sm" width={30} height={30}/>
   
           {/* Event Details */}
           <div className="mt-2">
@@ -24,10 +27,11 @@ const EventCard = ({ title, presenter, address, location, time }) => {
   
             {/* Presenter */}
             <div className="flex items-center mt-2">
-              <img
-                src={ProfileImage}
+              <Image
+                src={'/assets/profileImg.png'}
                 alt="Presenter Icon"
                 className="mr-2 w-5 h-5 md:w-5 md:h-5"
+                width={50} height={50}
               />
               <p className="text-xs md:text-[14px]">{presenter}</p>
             </div>
@@ -36,18 +40,18 @@ const EventCard = ({ title, presenter, address, location, time }) => {
             <div className="flex flex-col mt-2 gap-y-1 md:flex-row md:gap-x-4 md:items-center">
               {/* For Mobile: Address in its own row */}
               <div className="flex items-center md:order-1">
-                <img src={Location} alt="Address Icon" className="mr-2 w-3 h-3 md:w-4" />
+                <Image src={'/assets/location.svg'} alt="Address Icon" className="mr-2 w-3 h-3 md:w-4" width={30} height={30}/>
                 <p className="text-xs md:text-[14px]">{address}</p>
               </div>
   
               {/* For Mobile: Location and Time on the same row */}
               <div className="flex items-center justify-start gap-x-2 md:order-2">
                 <div className="flex items-center">
-                  <img src={Globe} alt="Location Icon" className="mr-2 w-3 h-3 md:w-4" />
+                  <Image src={'/assets/globeImg.svg'} alt="Location Icon" className="mr-2 w-3 h-3 md:w-4" width={30} height={30}/>
                   <p className="text-xs md:text-[14px]">{location}</p>
                 </div>
                 <div className="flex items-center">
-                  <img src={Time} alt="Time Icon" className="mr-2 w-3 h-3 md:w-4" />
+                  <Image src={'/assets/timeImg.svg'} alt="Time Icon" className="mr-2 w-3 h-3 md:w-4" width={30} height={30}/>
                   <p className="text-xs md:text-[14px]">{time}</p>
                 </div>
               </div>
@@ -93,10 +97,11 @@ const ProfilePage = () => {
         <div className="bg-[#1E1D1D] px-6 py-6 border border-gray-400 rounded-[4px] w-full max-w-sm lg:max-w-[740px]">
           <div className="flex items-center space-x-4">
             {/* Profile Section */}
-            <img
-              src={ProfileImage}
+            <Image
+              src={'/assets/profileImg.png'}
               alt="Profile"
               className="rounded-full w-16 h-16"
+              width={30} height={30}
             />
             <div className="space-y-2">
               <h2 className="font-normal text-sm md:text-lg">TeamINFURA</h2>

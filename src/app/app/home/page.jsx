@@ -1,10 +1,12 @@
-import addTeam from "../assets/add-team.svg";
-import share from "../assets/share-08.svg";
-import Button from "../components/Button";
-import EventCard from "../components/EventCard";
-import Footer from "../components/Footer";
-import HostsCard from "../components/HostsCard";
-import VisibilityCard from "../components/VisibilityCard";
+// /Image import '/assets/add-team.svg' from '../../../assets/add-team.svwidth={30} height={30}g'
+// import share from "../../../assets/share-08.svg";
+import Button from "../../../components/Button";
+import EventCard from "../../../components/EventCard";
+import Footer from "../../../components/Footer";
+import HostsCard from "../../../components/HostsCard";
+import VisibilityCard from "../../../components/VisibilityCard";
+import Image from "next/image";
+
 function DashboardPage() {
     return (
         <>
@@ -17,11 +19,11 @@ function DashboardPage() {
                 <div className="flex space-x-5 mt-12">
                     <Button bgColor="#1E1D1D">
                         <span>Invite Participants</span>
-                        <img src={addTeam} className="ml-2 inline" />
+                        <Image src={'/assets/add-team.svg'} alt="" className="ml-2 inline" width={30} height={30}/>
                     </Button>
                     <Button bgColor="#1E1D1D">
                         <span>Share Event</span>
-                        <img src={share} className="ml-2 inline" />
+                        <Image src={'/assets/share-08.svg'} alt="" className="ml-2 inline" width={30} height={30}/>
                     </Button>
                 </div>
                 <EventCard />

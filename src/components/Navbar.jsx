@@ -1,16 +1,20 @@
+'use client'
+
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import argent from "../assets/argentLogo.svg";
-import { Link, useNavigate } from "react-router-dom";
+// import argent from "../assets/argentLogo.svg";
+import Link from 'next/link'
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
 import { createPortal } from "react-dom";
-import events from "../assets/event.svg";
-import community from "../assets/community.svg";
-import userSwitch from "../assets/user-switch.svg";
-import burgerMenu from "../assets/burger.svg";
-import closeMenu from "../assets/close.png";
+// import events from "../assets/event.svg";
+// import community from "../assets/community.svg";
+// import userSwitch from "../assets/user-switch.svg";
+// import burgerMenu from "../assets/burger.svg";
+// import closeMenu from "../assets/close.png";
 import { AccountSidebar } from "./AccountSidebar";
 import { AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const ConnectModal = ({ setIsOpen }) => {
     const { connect, connectors } = useConnect();
@@ -44,7 +48,7 @@ function Navbar({ classes }) {
     const [showSidebar, setShowSidebar] = useState(false);
     const { address } = useAccount();
     const { disconnect } = useDisconnect();
-    const navigate = useNavigate();
+    const router = useRouter()
 
     function onConnect() {
         setIsOpen((prev) => !prev);
@@ -58,7 +62,7 @@ function Navbar({ classes }) {
     function onDisconnect() {
         disconnect();
         if (isToggle) setIsToggle(false);
-        navigate("/");
+        router.push("/");
     }
     const toggleSidebar = () => {
         setShowSidebar(!showSidebar);
@@ -80,8 +84,9 @@ function Navbar({ classes }) {
                     onClick={onToggleNav}
                     className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900"
                 >
-                    <img
-                        src={`${isToggle ? closeMenu : burgerMenu}`}
+                    <Image
+                        src={`${isToggle ? '/assets/close.png' : '/assets/burger.svg'}`}
+                        width={30} height={30}
                         alt="Menu"
                         className="h-6 w-6"
                     />
@@ -94,58 +99,63 @@ function Navbar({ classes }) {
                     isToggle ? "translate-y-[10.5rem]" : "-translate-y-full"
                 } transition-transform duration-300 absolute top-68 left-0 w-full rounded bg-gradient-to-b from-[#9F8F65] to-black py-6 flex flex-col lg:hidden items-center z-10`}
             >
-                <Link to={"/create-event"} onClick={onToggleNav}>
+                <Link href={"/create-event"} onClick={onToggleNav}>
                     <li className="flex justify-center whitespace-nowrap p-5 items-center gap-x-2 ">
-                        <img src={events} alt="event logo" />
+                        {/* <img src={events} alt="event logo" /> */}
+                        <Image src={'/assets/event.svg'} alt="event logo" className="h-6 w-6" width={30} height={30}/>
                         <span>Create Event</span>
                     </li>
                 </Link>
-                <Link to={"/app/your-events"} onClick={onToggleNav}>
+                <Link href={"/app/your-events"} onClick={onToggleNav}>
                     <li className="flex whitespace-nowrap justify-center p-5 gap-x-2 items-center">
-                        <img src={events} alt="event logo" />
+                    <Image src={'/assets/event.svg'} alt="event logo" className="h-6 w-6" width={30} height={30} />
                         <span>Your Events</span>
                     </li>
                 </Link>
-                <Link to={"/"} onClick={onToggleNav}>
+                <Link href={"/"} onClick={onToggleNav}>
                     <li className="flex whitespace-nowrap justify-center p-5 gap-x-2 items-center">
-                        <img src={community} alt="community logo" />
+                    <Image src={'/assets/community.svg'} alt="community logo" className="h-6 w-6" width={30} height={30}/>
                         <span>Communities</span>
                     </li>
                 </Link>
-                <Link to={"/"} onClick={onToggleNav}>
+                <Link href={"/"} onClick={onToggleNav}>
                     <li className="flex whitespace-nowrap justify-center p-5 gap-x-2 items-center">
-                        <img src={userSwitch} alt="calendar logo" />
+                        {/* <img src={userSwitch} alt="calendar logo" /> */}
+                        <Image src={'/assets/user-switch.svg'} alt="calendar logo" className="h-6 w-6" width={30} height={30}/>
                         <span>Calendars</span>
                     </li>
                 </Link>
             </ul>
 
             {/* Desktop navigation */}
-            <Link to="/" className="font-extrabold lg:flex hidden">
+            <Link href="/" className="font-extrabold lg:flex hidden">
                 STARKEVENTS
             </Link>
             <ul className="gap-x-[60px] items-center lg:flex hidden">
-                <Link to={"/create-event"}>
+                <Link href={"/create-event"}>
                     <li className="flex justify-center whitespace-nowrap items-center gap-x-2">
-                        <img src={events} alt="event logo" />
+                        {/* <img src={events} alt="event logo" /> */}
+                        <Image src={'/assets/event.svg'} alt="event logo" className="h-6 w-6" width={30} height={30}/>
                         <span>Create Event</span>
                     </li>
                 </Link>
-                <Link to={"/"}>
+                <Link href={"/"}>
                     <li className="flex whitespace-nowrap justify-center gap-x-2 items-center">
-                        <img src={events} alt="event logo" />
+                        {/* <img src={events} alt="event logo" /> */}
+                        <Image src={'/assets/event.svg'} alt="event logo" className="h-6 w-6" width={30} height={30}/>
                         <span>Your Events</span>
                     </li>
                 </Link>
-                <Link to={"/"}>
+                <Link href={"/"}>
                     <li className="flex whitespace-nowrap justify-center gap-x-2 items-center">
-                        <img src={community} alt="community logo" />
+                        {/* <img src={community} alt="community logo" /> */}
+                        <Image src={'/assets/community.svg'} alt="community logo" className="h-6 w-6" width={30} height={30}/>
                         <span>Communities</span>
                     </li>
                 </Link>
-                <Link to={"/"}>
+                <Link href={"/"}>
                     <li className="flex whitespace-nowrap justify-center gap-x-2 items-center">
-                        <img src={userSwitch} alt="calendar logo" />
+                        <Image src={'/assets/user-switch.svg'} alt="calendar logo" className="h-6 w-6" width={30} height={30}/>
                         <span>Calendars</span>
                     </li>
                 </Link>
@@ -165,10 +175,16 @@ function Navbar({ classes }) {
                     onClick={toggleSidebar}
                 >
                     <>
-                        <img
+                        {/* <img
                             src={argent}
                             className="lg:h-[24px] h-5 w-5 lg:w-[24px]"
                             alt=""
+                        /> */}
+                        <Image 
+                            src={'/assets/argentLogo.svg'}
+                            className="lg:h-[24px] h-5 w-5 lg:w-[24px]"
+                            alt=""
+                            width={30} height={30}
                         />
                         <span>
                             {address

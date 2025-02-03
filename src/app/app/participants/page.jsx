@@ -1,29 +1,25 @@
 import React from "react";
-import addTeam from "../assets/add-team.svg";
-import share from "../assets/share-08.svg";
-import avatar1 from "../assets/avatar1.png";
-import avatar2 from "../assets/avatar2.png";
-import avatar3 from "../assets/avatar3.png";
+import Image from "next/image";
 
 const avatars = [
-    avatar1,
-    avatar2,
-    avatar3,
-    avatar3,
-    avatar3,
-    avatar3,
-    avatar3,
-    avatar3,
+    '/assets/avatar1.png',
+    '/assets/avatar2.png',
+    '/assets/avatar3.png',
+    '/assets/avatar3.png',
+    '/assets/avatar3.png',
+    '/assets/avatar3.png',
+    '/assets/avatar3.png',
+    '/assets/avatar3.png',
     ,
-    avatar3,
+    '/assets/avatar3.png',
     ,
-    avatar3,
+    '/assets/avatar3.png',
     ,
-    avatar3,
+    '/assets/avatar3.png',
     ,
-    avatar3,
+    '/assets/avatar3.png',
     ,
-    avatar3,
+    '/assets/avatar3.png',
 ];
 
 const Participants = () => {
@@ -32,11 +28,11 @@ const Participants = () => {
             <div className="w-full flex space-x-5 mt-12">
                 <Button bgColor="#1E1D1D">
                     <span>Invite Participants</span>
-                    <img src={addTeam} className="ml-2 inline" />
+                    <Image src={'/assets/add-team.svg'} alt="" className="ml-2 inline" width={30} height={30}/>
                 </Button>
                 <Button bgColor="#1E1D1D">
                     <span>Share Event</span>
-                    <img src={share} className="ml-2 inline" />
+                    <Image src={'/assets/share-08.svg'} alt="" className="ml-2 inline" width={30} height={30}/>
                 </Button>
             </div>
             <div>
@@ -56,8 +52,8 @@ const Participants = () => {
                 <p className="my-3">Participants</p>
                 <SearchButton />
                 <div className="mt-5 border border-white rounded p-5">
-                    {avatars.map((avatar) => (
-                        <SearchItem hostLineImg={avatar} />
+                    {avatars.map((avatar, index) => (
+                        <SearchItem hostLineImg={avatar} key={index}/>
                     ))}
                 </div>
             </div>
@@ -113,7 +109,7 @@ const SearchItem = ({ hostLineImg }) => {
         <>
             <div className="flex justify-between my-3 text-white">
                 <div className="flex space-x-3 items-center">
-                    <img src={hostLineImg} alt="hostlineimage" />
+                    <Image src={hostLineImg} alt="hostlineimage" width={30} height={30} />
                     <p>Teaminfuralegend </p>
                     <p className="text-sm text-[#D9D9D9CC]">
                         taminfuraweb3@gmail.com

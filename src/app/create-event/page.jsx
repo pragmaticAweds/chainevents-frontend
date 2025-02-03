@@ -1,25 +1,29 @@
-import Navbar from "../components/Navbar";
-import banner from "../assets/testEventBanner.png";
-import EditIcon from "../icons/EditIcon";
-import Select from "../components/Select";
-import GlobeIcon from "../icons/GlobeIcon";
-import timelinePath from "../assets/timeline-path.svg";
-import MapPinIcon from "../icons/MapPinIcon";
-import FileIcon from "../icons/FileIcon";
-import ApprovalIcon from "../icons/ApprovalIcon";
+'use client'
+
+import Navbar from "../../components/Navbar";
+// import banner from "../../assets/testEventBanner.png";
+
+import EditIcon from "../../icons/EditIcon";
+import Select from "../../components/Select";
+import GlobeIcon from '../../icons/GlobeIcon';
+// imporImageimelinePath from '/assets/timeline-path.svg'../../assets/timeline-path.svgwidth={30} height={30}";
+import MapPinIcon from "../../icons/MapPinIcon";
+import FileIcon from "../../icons/FileIcon";
+import ApprovalIcon from "../../icons/ApprovalIcon";
 import { useEffect, useMemo, useState } from "react";
-import UploadIcon from "../icons/UploadIcon";
-import TicketsIcon from "../icons/TicketsIcon";
+import UploadIcon from "../../icons/UploadIcon";
+import TicketsIcon from "../../icons/TicketsIcon";
 import { createPortal } from "react-dom";
-import SetTicketPriceModal from "../components/SetTicketPriceModal";
-import SetCapacityModal from "../components/SetCapacityModal";
-import { timezones } from "../utils/data";
-import DateMobilePicker from "../components/DateMobilePicker";
-import { formatDisplayDate, formatTimeWithAmPm } from "../utils/helpers";
-import { contractAbi } from "../abi/abi";
-import { contractAddress } from "../utils/address";
-import { useNavigate } from "react-router-dom";
-import { useContractWriteUtility } from "../utils/helpers";
+import SetTicketPriceModal from "../../components/SetTicketPriceModal";
+import SetCapacityModal from "../../components/SetCapacityModal";
+import { timezones } from "../../utils/data";
+import DateMobilePicker from "../../components/DateMobilePicker";
+import { formatDisplayDate, formatTimeWithAmPm } from "../../utils/helpers";
+import { contractAbi } from "../../abi/abi";
+import { contractAddress } from "../../utils/address";
+import { useContractWriteUtility } from "../../utils/helpers";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 function CreateEvent() {
   const [isEditingPrice, setIsEditingPrice] = useState(false);
@@ -41,7 +45,7 @@ function CreateEvent() {
   const [regularTicketPrice, setRegularTicketPrice] = useState("");
   const [vipTicketPrice, setVipTicketPrice] = useState("");
   const [capacity, setCapacity] = useState("");
-  const navigate = useNavigate();
+  const router = useRouter();
   useEffect(() => {
     const currentDate = new Date();
 
@@ -84,9 +88,9 @@ function CreateEvent() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate("/");
+      router.push("/");
     }
-  }, [isSuccess, navigate]);
+  }, [isSuccess, router]);
 
   return (
     <div className="min-h-[100vh] bg-primaryBackground bg-[#1E1D1D] pb-10">
@@ -128,7 +132,8 @@ function CreateEvent() {
       <Navbar />
       <div className="flex justify-center px-6">
         <div className="lg:max-w-[740px] w-full">
-          <img src={banner} className="w-full h-[302px] lg:h-[154px]" alt="" />
+          <Image src={'/assets/testEventBanner.png'} className="w-full h-[302px] lg:h-[154px]" alt="banner" width={740} height={320}/>
+
           <div className="p-2 lg:px-3 lg:py-2 bg-white mt-4 flex justify-between items-center">
             <div className="flex items-center gap-x-2 text-black font-medium text-xs lg:text-sm">
               <div className="bg-[#1E1D1D] w-[58px] h-[34px] rounded-sm"></div>
@@ -174,7 +179,7 @@ function CreateEvent() {
           </div>
           <div className="grid grid-cols-[1fr] lg:grid-cols-[2.3fr_1fr] gap-x-4">
             <div className="border-[0.3px] border-white p-3 rounded flex gap-x-2 items-center">
-              <img src={timelinePath} className="h-[50px]" alt="" />
+              <Image src={'/assets/timeline-path.svg'} className="h-[50px]" alt="" width={30} height={30}/>
               <div className="flex-grow hidden lg:inline-block">
                 <div className="w-full flex justify-between items-center mb-1">
                   <h4 className="text-sm font-semibold text-white">Start</h4>

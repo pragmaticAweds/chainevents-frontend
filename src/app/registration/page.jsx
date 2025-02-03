@@ -1,7 +1,9 @@
+'use client'
+
 import { useState } from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Sidebar from '../components/Sidebar'; 
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
+import Sidebar from '../../components/Sidebar'; 
 import { BiIdCard, BiUser, BiEnvelope } from 'react-icons/bi';
 import { FaPlus } from 'react-icons/fa';
 import { SiEthereum, SiSolana } from 'react-icons/si';
@@ -10,10 +12,10 @@ import { LuWallet } from "react-icons/lu";
 import { PiBarn } from "react-icons/pi";
 import { LuFileQuestion } from "react-icons/lu";
 import { MdOutlinePhoneInTalk } from "react-icons/md";
-import RegistrationModal from '../components/RegistrationModal';
-import EventCapacityModal from "../components/EventCapacityModal";
-import NewEventType from "../components/NewEventType";
-import AddQuestionModal from "../components/AddQuestionModal";
+import RegistrationModal from '../../components/RegistrationModal';
+import EventCapacityModal from "../../components/EventCapacityModal";
+import NewEventType from "../../components/NewEventType";
+import AddQuestionModal from "../../components/AddQuestionModal";
 
 const Registration = () => {
     

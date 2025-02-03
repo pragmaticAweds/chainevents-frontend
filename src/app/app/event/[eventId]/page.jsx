@@ -1,18 +1,21 @@
-import leftArr from "../assets/left-arrow.svg";
-import locationIcon from "../assets/locationIcon.svg";
-import HostedStrip from "../components/HostedStrip";
-import attendees from "../assets/attendees.svg";
-import banner from "../assets/sampleBanner.png";
-import location from "../assets/calendar-tick.svg";
-import { contractAddress } from "../utils/address";
-import { contractAbi } from "../abi/abi";
-import { useContractFetch } from "../utils/helpers";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+'use client'
 
-function EventDetailsPage() {
+// import leftArr from "../../../../assets/left-arrow.svg";
+// import locationIcon from "../../../../assets/locationIcon.svg";
+import HostedStrip from "../../../../components/HostedStrip";
+// import attendees from "../../../../assets/attendees.svg";
+// import banner from "../../../../assets/sampleBanner.png";
+// import location from "../../../../assets/calendar-tick.svg";
+import { contractAddress } from "../../../../utils/address";
+import { contractAbi } from "../../../../abi/abi";
+import { useContractFetch } from "../../../../utils/helpers";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+// import { useParams } from "react-router-dom";
+
+function EventDetailsPage({params}) {
   const [eventData, setEventData] = useState(null);
-  const { eventId } = useParams();
+  const { eventId } = React.use(params);
 
   // Create proper uint256 format for event_id
   const eventIdBigInt = {
@@ -76,12 +79,12 @@ function EventDetailsPage() {
       <div className="relative bg-[#0D0C0C] w-full h-[85vh] overflow-y-scroll pt-[102px] px-[49px] pb-[56px] text-white">
         <div className="absolute top-6 left-6 flex items-center gap-x-4 text-base font-medium">
           <button className="flex gap-x-2 items-center py-1 pr-4 border-r-[#FF4B8B] border-r-[1px]">
-            <img src={leftArr} alt="" />
+            <Image src={'/assets/left-arrow.svg'} alt="" width={30} height={30}/>
             Back
           </button>
           <h6>{eventData?.name || "chainEvent"}</h6>
         </div>
-        <img src={banner} className="w-full" alt="" />
+        <Image src={'/assets/sampleBanner.png'} className="w-full" alt="" width={500} height={500}/>
 
         <h3 className="text-2xl font-bold mt-4">
           {eventData?.name || "chainEvent"}
@@ -91,11 +94,11 @@ function EventDetailsPage() {
         </h4>
         <div className="flex mt-2 items-center mb-[23px] gap-x-6 text-sm text-[#66E372]">
           <div className="flex items-center gap-x-2">
-            <img src={location} alt="" />
+            <Image src={'/assets/calendar-tick.svg'} alt="" width={30} height={30}/>
             <h6>24th March - 26th March 2024</h6>
           </div>
           <div className="flex items-center gap-x-2">
-            <img src={location} alt="" />
+            <Image src={'/assets/calendar-tick.svg'} alt="" width={30} height={30}/>
             <h6>{eventData?.location || "Loading location..."}</h6>
           </div>
         </div>
@@ -186,7 +189,7 @@ function EventDetailsPage() {
         </div>
         <div className="text-base flex flex-col pb-4 border-b-[0.5px] border-b-[#FAA2C1] mb-4">
           <h4 className="flex items-center gap-x-1 text-xs font-medium text-[#878787] mb-2">
-            <img src={locationIcon} alt="" /> Location
+            <Image src={'/assets/locationIcon.svg'} alt="" width={30} height={30}/> Location
           </h4>
           <h3>{eventData?.location || "lagos"}</h3>
         </div>
@@ -202,7 +205,7 @@ function EventDetailsPage() {
           <h4 className="text-xs font-medium mb-2 ">
             {eventData?.totalRegister || 0} Attendees Registered
           </h4>
-          <img src={attendees} className="w-[122px] mb-1" alt="" />
+          <Image src={'/assets/attendees.svg'} className="w-[122px] mb-1" alt="" width={30} height={30}/>
           <h6 className="text-[8px] font-medium">
             Joel Adewole, Zaff and{" "}
             {Math.max((eventData?.totalRegister || 0) - 2, 0)} others
