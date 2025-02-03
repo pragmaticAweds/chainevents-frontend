@@ -1,5 +1,7 @@
+import { useRouter } from "next/navigation";
 import React from "react";
-const EventCard = () => {
+const EventCard = ({ baseRoute }) => {
+  let router = useRouter();
   return (
     <div className="text-white text-xs leading-4">
       <h4 className="w-full py-2 px-[11px] font-semibold text-left">
@@ -15,9 +17,14 @@ const EventCard = () => {
           <h5 className="mb-2 flex items-center gap-x-1">
             <img src="/assets/globe.svg" alt="" /> 10:00 AM
           </h5>
-          <h2 className="text-sm leading-[18px] text-white font-semibold mb-3">
+          <button
+            onClick={() => {
+              router.push(`/${baseRoute}/1`);
+            }}
+            className="text-sm leading-[18px] text-white font-semibold mb-3"
+          >
             Workshop: Leveraging The Graph to build Your Dapp
-          </h2>
+          </button>
           <h5 className="mb-2">Lagos, Nigeria</h5>
           <h5 className="mb-3">Colab Innovation Campus</h5>
           <div className="flex gap-x-[10px]">

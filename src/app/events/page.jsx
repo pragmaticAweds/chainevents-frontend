@@ -60,13 +60,13 @@ function EventsPage() {
             <p className="text-red-500">{`Failed to fetch events: ${error.message}`}</p>
           ) : events.length > 0 ? (
             events.map((event, index) => (
-              <EventCard key={index} event={event} />
+              <EventCard key={index} event={event} baseRoute="events" />
             ))
           ) : (
             <p className="text-white">No events found.</p>
           )}
           {events.map((event, index) => (
-            <EventCard isGoing={event} key={index} />
+            <EventCard isGoing={event} key={index} baseRoute="events" />
           ))}
         </div>
       </main>

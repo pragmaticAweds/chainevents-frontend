@@ -14,17 +14,17 @@ import ConnectModal from "./ConnectModal";
 const navLinks = [
   {
     label: "Create Event",
-    to: "create-event",
+    to: "/create-event",
     icon: "/assets/event.svg",
   },
   {
     label: "Your Events",
-    to: "your-events",
+    to: "/your-events",
     icon: "/assets/event.svg",
   },
   {
     label: "All Events",
-    to: "events",
+    to: "/events",
     icon: "/assets/community.svg",
   },
 ];
