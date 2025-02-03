@@ -16,4 +16,3 @@ jobs:
       # install dependencies using clean install to avoid package lock updates
       - run: npm install --legacy-peer-deps
       - run: npm run build
-      - run: npm run format
