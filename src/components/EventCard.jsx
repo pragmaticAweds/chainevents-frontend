@@ -19,6 +19,7 @@ const EventCard = ({ baseRoute }) => {
           </h5>
           <button
             onClick={() => {
+              if (baseRoute === "your-events") return;
               router.push(`/${baseRoute}/1`);
             }}
             className="text-sm leading-[18px] text-white font-semibold mb-3"
@@ -28,9 +29,16 @@ const EventCard = ({ baseRoute }) => {
           <h5 className="mb-2">Lagos, Nigeria</h5>
           <h5 className="mb-3">Colab Innovation Campus</h5>
           <div className="flex gap-x-[10px]">
-            <button className="p-[6px] bg-[#D9D9D9] rounded-sm text-[#3A3A3A]">
-              Manage Event <span></span>
-            </button>
+            {baseRoute === "your-events" && (
+              <button
+                className="p-[6px] bg-[#D9D9D9] rounded-sm text-[#3A3A3A]"
+                onClick={() => {
+                  router.push(`/${baseRoute}/1`);
+                }}
+              >
+                Manage Event <span></span>
+              </button>
+            )}
             <img src="/assets/attendees.svg" alt="" />
           </div>
         </div>
