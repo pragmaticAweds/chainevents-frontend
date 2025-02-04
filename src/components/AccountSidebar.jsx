@@ -1,10 +1,7 @@
-'use client'
+"use client";
 
 import React from "react";
 import { motion } from "framer-motion";
-// import purse from "../assets/purse.png";
-// import disconnect from "../assets/disconnect.png";
-// import iconAvatar from "../assets/iconAvatar.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -12,10 +9,10 @@ export const AccountSidebar = ({ closeFunc, userAddr, disconnectFunc }) => {
   const router = useRouter();
   return (
     <motion.div
-      initial={{ x: "100%" }} // Initial position (off-screen to the right)
-      animate={{ x: 0 }} // Slide to its normal position
-      exit={{ x: "100%" }} // Slide back off-screen when unmounted
-      transition={{ duration: 0.2, ease: "easeOut" }} // Animation duration and easing
+      initial={{ x: "100%" }}
+      animate={{ x: 0 }}
+      exit={{ x: "100%" }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
       className="bg-[#1E1D1D] absolute h-[100vh] top-0 right-0 w-[330px] p-5 z-[200]"
       onClick={closeFunc}
     >
@@ -23,8 +20,8 @@ export const AccountSidebar = ({ closeFunc, userAddr, disconnectFunc }) => {
         <div className="border border-1 rounded-[8px] border-[#C3B07A]">
           <div className="flex text-xs justify-between px-2 py-5">
             <div className="flex space-x-1 items-center">
-              <img src={purse} alt="purse icon" className="block" />
-              <Image src={'/assets/purse.png'} />
+              <img src="/assets/purse.png" alt="purse icon" className="block" />
+              <Image src="/assets/purse.png" width={16} height={16} alt="#" />
               <p>Change wallet</p>
             </div>
             <button
@@ -32,7 +29,12 @@ export const AccountSidebar = ({ closeFunc, userAddr, disconnectFunc }) => {
               onClick={disconnectFunc}
             >
               {/* <img src={disconnect} alt="disconnect icon" className="block" /> */}
-              <Image src={'/assets/disconnect.png'} />
+              <Image
+                src="/assets/disconnect.png"
+                alt="#"
+                width={30}
+                height={30}
+              />
               <span>Disconnect wallet</span>
             </button>
           </div>
@@ -43,8 +45,12 @@ export const AccountSidebar = ({ closeFunc, userAddr, disconnectFunc }) => {
             className="flex space-x-1 px-2 py-5 cursor-pointer"
             onClick={() => router.push("/profile")}
           >
-            {/* <img src={iconAvatar} alt="avatar icon" className="block" /> */}
-            <Image src={'/assets/iconAvatar.png'} />
+            <Image
+              src={"/assets/iconAvatar.png"}
+              alt="#"
+              width={30}
+              height={30}
+            />
             <div className="text-sm flex flex-col space-y-1 items-start">
               <p className="block text-[#C3B07A]">Team INFURA</p>
               <p className="block">{userAddr}</p>

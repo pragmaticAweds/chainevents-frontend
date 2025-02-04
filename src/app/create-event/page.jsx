@@ -1,16 +1,13 @@
-'use client'
+"use client";
 
 import Navbar from "../../components/Navbar";
-// import banner from "../../assets/testEventBanner.png";
-
 import EditIcon from "../../icons/EditIcon";
 import Select from "../../components/Select";
-import GlobeIcon from '../../icons/GlobeIcon';
-// imporImageimelinePath from '/assets/timeline-path.svg'../../assets/timeline-path.svgwidth={30} height={30}";
+import GlobeIcon from "../../icons/GlobeIcon";
 import MapPinIcon from "../../icons/MapPinIcon";
 import FileIcon from "../../icons/FileIcon";
 import ApprovalIcon from "../../icons/ApprovalIcon";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import UploadIcon from "../../icons/UploadIcon";
 import TicketsIcon from "../../icons/TicketsIcon";
 import { createPortal } from "react-dom";
@@ -24,6 +21,8 @@ import { contractAddress } from "../../utils/address";
 import { useContractWriteUtility } from "../../utils/helpers";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Footer from "@/components/Footer";
+import LockBodyScroll from "@/components/LockBodyScroll";
 
 function CreateEvent() {
   const [isEditingPrice, setIsEditingPrice] = useState(false);
@@ -93,7 +92,10 @@ function CreateEvent() {
   }, [isSuccess, router]);
 
   return (
-    <div className="min-h-[100vh] bg-primaryBackground bg-[#1E1D1D] pb-10">
+    <div className="text-white overflow-x-hidden flex flex-col items-center text-center bg-primaryBackground bg-[#1E1D1D]">
+      <LockBodyScroll
+        lock={isEditingPrice || isEditingCapacity || mobileDatePickerIsOpen}
+      />
       {/* Modals */}
       {isEditingPrice &&
         createPortal(
@@ -130,34 +132,31 @@ function CreateEvent() {
         )}
 
       <Navbar />
-      <div className="flex justify-center px-6">
+      <main className="pt-[74px] pb-[197px]">
         <div className="lg:max-w-[740px] w-full">
-          <Image src={'/assets/testEventBanner.png'} className="w-full h-[302px] lg:h-[154px]" alt="banner" width={740} height={320}/>
+          <Image
+            src={"/assets/testEventBanner.png"}
+            className="w-full h-[302px] lg:h-[154px]"
+            alt="banner"
+            width={740}
+            height={320}
+          />
 
-          <div className="p-2 lg:px-3 lg:py-2 bg-white mt-4 flex justify-between items-center">
-            <div className="flex items-center gap-x-2 text-black font-medium text-xs lg:text-sm">
-              <div className="bg-[#1E1D1D] w-[58px] h-[34px] rounded-sm"></div>
-              <h4>Theme</h4>
-            </div>
-            <button>
-              <EditIcon />
-            </button>
-          </div>
-
-          <div className="flex justify-between items-center mt-10 w-full mb-3">
+          <div className="flex justify-between items-end mt-10 w-full mb-3">
             <div className="w-4/5">
-              <h3 className="text-sm lg:text-xl font-medium text-white">
+              <h3 className="text-sm lg:text-base leading-5 text-left mb-2 font-medium text-white">
                 Event Name
               </h3>
               <input
                 type="text"
-                className="border w-full h-[40px] bg-inherit outline-none text-white px-5"
+                placeholder="Enter the name of your event"
+                className="border w-full h-[40px] bg-inherit outline-none text-white px-5 rounded"
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
               />
             </div>
-            <div className="relative mt-8">
+            <div className="relative">
               <div className="absolute z-10 top-[10px] left-3 text-white">
                 <GlobeIcon />
               </div>
@@ -179,7 +178,13 @@ function CreateEvent() {
           </div>
           <div className="grid grid-cols-[1fr] lg:grid-cols-[2.3fr_1fr] gap-x-4">
             <div className="border-[0.3px] border-white p-3 rounded flex gap-x-2 items-center">
-              <Image src={'/assets/timeline-path.svg'} className="h-[50px]" alt="" width={30} height={30}/>
+              <Image
+                src={"/assets/timeline-path.svg"}
+                className="h-[50px]"
+                alt=""
+                width={30}
+                height={30}
+              />
               <div className="flex-grow hidden lg:inline-block">
                 <div className="w-full flex justify-between items-center mb-1">
                   <h4 className="text-sm font-semibold text-white">Start</h4>
@@ -271,7 +276,7 @@ function CreateEvent() {
           <div className="border-[0.3px] border-white py-4 px-3 flex gap-x-2 mt-4 text-white rounded-sm">
             <MapPinIcon />
             <div className="flex-grow">
-              <h3 className="text-[#D9D9D9] text-sm lg:text-base mb-1">
+              <h3 className="text-[#D9D9D9] text-sm lg:text-base mb-1 text-left">
                 Add Event Location
               </h3>
               <input
@@ -402,7 +407,8 @@ function CreateEvent() {
             Create event
           </button>
         </div>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 }
