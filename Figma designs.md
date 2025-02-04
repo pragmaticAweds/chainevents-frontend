@@ -10,3 +10,6 @@ Design Registration and Insight Screens - https://www.figma.com/design/glhAT4GVz
 
 Profile screen: https://www.figma.com/design/Z1IebD0dM4HMDDnlxzhV6R/CHAINEVENTS-DRAFT?node-id=1438-2088&node-type=canvas&t=ZMpOj4adCk8E4Fjz-0
 
+New updates: https://www.figma.com/design/Z1IebD0dM4HMDDnlxzhV6R/CHAINEVENTS-DRAFT?node-id=1730-1211&p=f&t=FozadfJ22AxLhkzQ-0
+
+https://www.figma.com/design/Z1IebD0dM4HMDDnlxzhV6R/CHAINEVENTS-DRAFT?node-id=1730-1211&p=f&t=FozadfJ22AxLhkzQ-0----New
