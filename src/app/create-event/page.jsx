@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 import LockBodyScroll from "@/components/LockBodyScroll";
+import { HiChevronDown } from "react-icons/hi2";
 
 function CreateEvent() {
   const [isEditingPrice, setIsEditingPrice] = useState(false);
@@ -157,7 +158,7 @@ function CreateEvent() {
               />
             </div>
             <div className="relative">
-              <div className="absolute z-10 top-[10px] left-3 text-white">
+              <div className="absolute z-10 top-[10px] left-3 text-black">
                 <GlobeIcon />
               </div>
               <Select
@@ -174,6 +175,9 @@ function CreateEvent() {
                   },
                 ]}
               />
+              <div className="absolute z-10 top-[10px] right-3 text-black">
+                <HiChevronDown />
+              </div>
             </div>
           </div>
           <div className="grid grid-cols-[1fr] lg:grid-cols-[2.3fr_1fr] gap-x-4">
