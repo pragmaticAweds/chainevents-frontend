@@ -24,6 +24,9 @@ import Image from "next/image";
 import Footer from "@/components/Footer";
 import LockBodyScroll from "@/components/LockBodyScroll";
 import { HiChevronDown } from "react-icons/hi2";
+import { createEvent } from "@/services/event/createEvent";
+import { useAccount } from "@starknet-react/core";
+import { toast } from "react-hot-toast";
 
 function CreateEvent() {
   const [isEditingPrice, setIsEditingPrice] = useState(false);
@@ -45,7 +48,10 @@ function CreateEvent() {
   const [regularTicketPrice, setRegularTicketPrice] = useState("");
   const [vipTicketPrice, setVipTicketPrice] = useState("");
   const [capacity, setCapacity] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { address } = useAccount();
+
   useEffect(() => {
     const currentDate = new Date();
 
@@ -82,8 +88,44 @@ function CreateEvent() {
     contractAddress
   );
   async function handleSubmit() {
-    if (!name && !location) return;
-    await writeAsync();
+    if (!address) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
+
+    if (!name || !location || !capacity) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      // First create the event on-chain
+      const tx = await writeAsync();
+      
+      // Wait for the transaction to be confirmed
+      await tx.wait();
+
+      // Then create the event in the backend
+      const eventData = {
+        name,
+        location,
+        event_onchain_id: 20, // This should come from the blockchain transaction
+        event_owner: address,
+        event_email: "unknown@gmail.com", // This should be collected from the user
+        event_capacity: parseInt(capacity),
+      };
+
+      let event_id = await createEvent(eventData);
+      console.log(event_id)
+      toast.success("Event created successfully!");
+      router.push("/");
+    } catch (error) {
+      console.error("Error creating event:", error);
+      toast.error(error.message || "Failed to create event");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -405,10 +447,19 @@ function CreateEvent() {
           </div>
 
           <button
-            onClick={handleSubmit}
-            className="w-full py-3 bg-[#000000] border-white border-[0.5px] rounded-sm text-sm lg:text-xl font-regular text-white mt-6"
+            onClick={() => { console.log("button clicked"); handleSubmit(); }}
+            disabled={isLoading}
+            className={`w-full py-3 border-white border-[0.5px] rounded-sm text-sm lg:text-xl font-regular text-white mt-6 
+              ${isLoading ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#000000]'}`}
           >
-            Create event
+            {isLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-5 h-5 border-t-2 border-white rounded-full animate-spin" />
+                <span>Creating event...</span>
+              </div>
+            ) : (
+              'Create event'
+            )}
           </button>
         </div>
       </main>
