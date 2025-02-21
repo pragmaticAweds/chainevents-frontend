@@ -89,10 +89,7 @@ function CreateEvent() {
 
   const submitEvent = async () => {
     // First create the event on-chain
-    // const tx = await writeAsync();
-    
-    // Wait for the transaction to be confirmed
-    // await tx.wait();
+    const tx = await writeAsync();
     
     // Create the event in the backend
     try {
@@ -105,9 +102,7 @@ function CreateEvent() {
         event_capacity: parseInt(capacity),
       };
 
-      console.log('Submitting event data:', eventData);
       const result = await createEvent(eventData);
-      console.log('Event creation result:', result);
       return result;
     } catch (error) {
       console.error('Error in submitEvent:', error);
