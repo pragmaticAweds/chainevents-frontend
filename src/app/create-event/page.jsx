@@ -54,7 +54,6 @@ function CreateEvent() {
 
   useEffect(() => {
     const currentDate = new Date();
-
     const formatDate = (date) =>
       date.toISOString().slice(0, 10).replace(/-/g, "/");
     const formatTime = (date) => date.toTimeString().slice(0, 5);
@@ -87,7 +86,38 @@ function CreateEvent() {
     contractAbi,
     contractAddress
   );
-  async function handleSubmit() {
+
+  const submitEvent = async () => {
+    // First create the event on-chain
+    // const tx = await writeAsync();
+    
+    // Wait for the transaction to be confirmed
+    // await tx.wait();
+    
+    // Create the event in the backend
+    try {
+      const eventData = {
+        name,
+        location,
+        event_onchain_id: 20,
+        event_owner: address,
+        event_email: "unknown@gmail.com",
+        event_capacity: parseInt(capacity),
+      };
+
+      console.log('Submitting event data:', eventData);
+      const result = await createEvent(eventData);
+      console.log('Event creation result:', result);
+      return result;
+    } catch (error) {
+      console.error('Error in submitEvent:', error);
+      throw error;
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+    
     if (!address) {
       toast.error("Please connect your wallet first");
       return;
@@ -100,33 +130,17 @@ function CreateEvent() {
 
     setIsLoading(true);
     try {
-      // First create the event on-chain
-      const tx = await writeAsync();
-      
-      // Wait for the transaction to be confirmed
-      await tx.wait();
-
-      // Then create the event in the backend
-      const eventData = {
-        name,
-        location,
-        event_onchain_id: 20, // This should come from the blockchain transaction
-        event_owner: address,
-        event_email: "unknown@gmail.com", // This should be collected from the user
-        event_capacity: parseInt(capacity),
-      };
-
-      let event_id = await createEvent(eventData);
-      console.log(event_id)
+      const result = await submitEvent();
+      console.log('Submit successful:', result);
       toast.success("Event created successfully!");
       router.push("/");
     } catch (error) {
-      console.error("Error creating event:", error);
+      console.error('Submit error:', error);
       toast.error(error.message || "Failed to create event");
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -176,7 +190,7 @@ function CreateEvent() {
 
       <Navbar />
       <main className="pt-[74px] pb-[197px]">
-        <div className="lg:max-w-[740px] w-full">
+        <form onSubmit={handleSubmit} className="lg:max-w-[740px] w-full">
           <Image
             src={"/assets/testEventBanner.png"}
             className="w-full h-[302px] lg:h-[154px]"
@@ -245,7 +259,7 @@ function CreateEvent() {
                       type="time"
                       value={startTime}
                       onChange={(e) => setStartTime(e.target.value)}
-                      className="rounded-[0_4px_4px_0px] bg-[#D9D9D9] py-2 px-4 w-[104px] text-[#1E1D1D]"
+                      className="rounded-[0_4px_4px_0px] bg-[#D9D9D9] py-2 px-4 w-[100px] text-[#1E1D1D]"
                     />
                   </div>
                 </div>
@@ -262,7 +276,7 @@ function CreateEvent() {
                       type="time"
                       value={stopTime}
                       onChange={(e) => setStopTime(e.target.value)}
-                      className="rounded-[0_4px_4px_0px] bg-[#D9D9D9] py-2 w-[104px] px-4 text-[#1E1D1D]"
+                      className="rounded-[0_4px_4px_0px] bg-[#D9D9D9] py-2 w-[100px] px-4 text-[#1E1D1D]"
                     />
                   </div>
                 </div>
@@ -447,10 +461,10 @@ function CreateEvent() {
           </div>
 
           <button
-            onClick={() => { console.log("button clicked"); handleSubmit(); }}
+            type="submit"
             disabled={isLoading}
             className={`w-full py-3 border-white border-[0.5px] rounded-sm text-sm lg:text-xl font-regular text-white mt-6 
-              ${isLoading ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#000000]'}`}
+              ${isLoading ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#000000] hover:bg-gray-900'}`}
           >
             {isLoading ? (
               <div className="flex items-center justify-center gap-2">
@@ -461,7 +475,7 @@ function CreateEvent() {
               'Create event'
             )}
           </button>
-        </div>
+        </form>
       </main>
       <Footer />
     </div>
