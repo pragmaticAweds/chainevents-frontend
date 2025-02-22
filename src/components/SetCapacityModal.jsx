@@ -28,12 +28,13 @@ export default function SetCapacityModal({ setOpen, handleSetCapacity }) {
           <div className="flex flex-col gap-y-2 mb-2 lg:mb-4">
             <label htmlFor="capacity">Capacity</label>
             <input
-              type="text"
+              type="number"
               value={capacity}
+              min="1"
               onChange={(e) => {
                 setCapacity(e.target.value);
               }}
-              className="bg-transparent p-2 lg:p-3 border-[0.3px] border-white rounded-sm outline-none"
+              className="bg-transparent p-2 lg:p-3 border-[0.3px] border-white rounded-sm outline-none appearance-none"
             />
           </div>
 

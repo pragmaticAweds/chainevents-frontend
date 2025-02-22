@@ -15,7 +15,7 @@ import SetTicketPriceModal from "../../components/SetTicketPriceModal";
 import SetCapacityModal from "../../components/SetCapacityModal";
 import { timezones } from "../../utils/data";
 import DateMobilePicker from "../../components/DateMobilePicker";
-import { formatDisplayDate, formatTimeWithAmPm } from "../../utils/helpers";
+import { formatDisplayDate, formatTimeWithAmPm, useContractFetch } from "../../utils/helpers";
 import { contractAbi } from "../../abi/abi";
 import { contractAddress } from "../../utils/address";
 import { useContractWriteUtility } from "../../utils/helpers";
@@ -80,19 +80,31 @@ function CreateEvent() {
     setCapacity(capacity);
     setIsEditingCapacity(false);
   }
-  const { writeAsync, isSuccess } = useContractWriteUtility(
+  const { writeAsync, writeData, waitData, isSuccess } = useContractWriteUtility(
     "add_event",
     [name, location],
     contractAbi,
     contractAddress
   );
 
+  // const { data: eventsData } = useContractFetch(
+  //   contractAbi,
+  //   "get_events",
+  //   contractAddress,
+  //   [address]
+  // );
+
+  // Update submitEvent to use the data from the hook
   const submitEvent = async () => {
-    // First create the event on-chain
-    const tx = await writeAsync();
-    
-    // Create the event in the backend
     try {
+      // First create the event on-chain
+      await writeAsync();
+      
+      // const eventId = eventsData?.length > 0 ? eventsData[eventsData.length - 1].event_id : 0; 
+      // console.log(eventId)
+      // console.log(eventsData)
+      
+      // Create the event in the backend
       const eventData = {
         name,
         location,
@@ -128,7 +140,6 @@ function CreateEvent() {
       const result = await submitEvent();
       console.log('Submit successful:', result);
       toast.success("Event created successfully!");
-      router.push("/");
     } catch (error) {
       console.error('Submit error:', error);
       toast.error(error.message || "Failed to create event");
@@ -341,13 +352,13 @@ function CreateEvent() {
                   setLocation(e.target.value);
                 }}
                 placeholder="Offline location or virtual location"
-                className="bg-transparent flex-grow border-[0.15px] w-full rounded-sm border-white p-2 text-[#B1ACAC] text-sm placeholder:text-[#D9D9D9]"
+                className="bg-transparent flex-grow w-full rounded-sm p-2 text-[#fff] text-sm placeholder:text-[#B1ACAC] active:bg-none focus:outline-none"
                 id=""
               />
             </div>
           </div>
 
-          <div className="border-[0.3px] border-white py-4 px-3 flex gap-x-2 mt-4 items-center text-white rounded-sm">
+          <div className="border-[0.3px] border-white py-4 px-3 flex gap-x-2 mt-4 items-start text-white rounded-sm">
             <FileIcon />
             <textarea
               name="description"
@@ -356,17 +367,18 @@ function CreateEvent() {
                 setDescription(e.target.value);
               }}
               placeholder="Add description"
-              className="bg-transparent flex-grow rounded-sm border-[0.15px] border-white p-2 text-[#D9D9D9] text-sm placeholder:text-[#D9D9D9]"
+              className="bg-transparent flex-grow rounded-sm px-1 text-[#D9D9D9] text-sm placeholder:text-[#B1ACAC] focus:outline-none"
               id=""
             ></textarea>
           </div>
+
           <div className="mt-4  text-white">
             <h3 className="mb-2 text-sm lg:text-base font-medium">
               Event Details
             </h3>
             <div className="border-[0.3px] border-white py-[14px] px-4 flex flex-col gap-x-2 items-center text-sm lg:text-base rounded-sm divide-y divide-gray-400">
               <div className="flex justify-between w-full items-center pb-3">
-                <div className="flex items-center gap-x-1">
+                <div className="flex items-center gap-x-2">
                   <ApprovalIcon />
                   <h4>Approval</h4>
                 </div>
@@ -387,7 +399,7 @@ function CreateEvent() {
                 </div>
               </div>
               <div className="flex justify-between w-full items-center py-3">
-                <div className="flex items-center gap-x-1">
+                <div className="flex items-center gap-x-2">
                   <UploadIcon />
                   <h4>Capacity</h4>
                 </div>
@@ -412,12 +424,12 @@ function CreateEvent() {
                       setIsEditingCapacity(true);
                     }}
                   >
-                    <EditIcon />
+                      <EditIcon />
                   </button>
                 </div>
               </div>
               <div className="flex justify-between w-full items-center pt-3">
-                <div className="flex items-center gap-x-1">
+                <div className="flex items-center gap-x-2">
                   <TicketsIcon />
                   <h4>Tickets</h4>
                 </div>
