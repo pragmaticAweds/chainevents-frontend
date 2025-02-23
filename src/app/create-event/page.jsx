@@ -7,7 +7,7 @@ import GlobeIcon from "../../icons/GlobeIcon";
 import MapPinIcon from "../../icons/MapPinIcon";
 import FileIcon from "../../icons/FileIcon";
 import ApprovalIcon from "../../icons/ApprovalIcon";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import UploadIcon from "../../icons/UploadIcon";
 import TicketsIcon from "../../icons/TicketsIcon";
 import { createPortal } from "react-dom";
@@ -15,7 +15,7 @@ import SetTicketPriceModal from "../../components/SetTicketPriceModal";
 import SetCapacityModal from "../../components/SetCapacityModal";
 import { timezones } from "../../utils/data";
 import DateMobilePicker from "../../components/DateMobilePicker";
-import { formatDisplayDate, formatTimeWithAmPm, useContractFetch } from "../../utils/helpers";
+import { formatDisplayDate, formatTimeWithAmPm } from "../../utils/helpers";
 import { contractAbi } from "../../abi/abi";
 import { contractAddress } from "../../utils/address";
 import { useContractWriteUtility } from "../../utils/helpers";
@@ -53,6 +53,8 @@ function CreateEvent() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { address } = useAccount();
+  const receiptRef = useRef(null);
+  const resolveRef = useRef(null);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -82,50 +84,63 @@ function CreateEvent() {
     setCapacity(capacity);
     setIsEditingCapacity(false);
   }
-  const { writeAsync, writeData, waitData, isSuccess } = useContractWriteUtility(
+  const { writeAsync, error: addEventError, waitData: transactionReceipt } = useContractWriteUtility(
     "add_event",
     [name, location],
     contractAbi,
     contractAddress
   );
 
-  // Update submitEvent to use the data from the hook
   const submitEvent = async () => {
+    let loadingToast;
     try {
-      // First create the event on-chain
+      loadingToast = toast.loading('Sending transaction...');
       const tx = await writeAsync();
-      if (!tx) {
-        throw new Error('Transaction failed');
+      
+      if (addEventError) {
+        toast.dismiss(loadingToast);
+        throw new Error('Transaction failed: ' + addEventError.message);
       }
-  
-      // Wait for transaction confirmation
-      if (!waitData) {
-        throw new Error('On-chain event creation failed');
-      }
-  
-      // Get the event ID from the transaction receipt
-      const eventId = waitData?.events?.[0]?.data;
-      console.log(eventId)
-  
+
+      toast.loading('Waiting for confirmation...', { id: loadingToast });
+      
+      const receipt = await new Promise((resolve, reject) => {
+        resolveRef.current = resolve;
+        
+        setTimeout(() => {
+          if (!receiptRef.current) {
+            reject(new Error('Transaction timeout'));
+          }
+        }, 60000);
+      });
+
+      toast.loading('Creating event...', { id: loadingToast });
+
+      const eventId = receipt.events[0].data[3];
+
       // Create the event in the backend
       const eventData = {
         name,
         location,
-        event_onchain_id: 1,
+        event_onchain_id: parseInt(eventId, 16),
         event_owner: address,
         event_email: email,
         event_capacity: parseInt(capacity),
       };
-  
+      
       const result = await createEvent(eventData);
       
       if (!result.success) {
         throw new Error(result.message || 'Failed to create event in backend');
       }
-  
+
+      toast.dismiss(loadingToast);
       return result;
     } catch (error) {
       console.error('Error in submitEvent:', error);
+      if (loadingToast) {
+        toast.dismiss(loadingToast);
+      }
       throw error;
     }
   };
@@ -163,9 +178,9 @@ function CreateEvent() {
     setIsLoading(true);
     try {
       const result = await submitEvent();
-      console.log('Submit successful:', result);
       toast.success("Event created successfully!");
-          } catch (error) {
+      router.push("/"); 
+    } catch (error) {
       console.error('Submit error:', error);
       toast.error(error.message || "Failed to create event");
     } finally {
@@ -173,11 +188,15 @@ function CreateEvent() {
     }
   };
 
+  // Monitor transaction status and resolve the promise when we have data
   useEffect(() => {
-    if (isSuccess) {
-      // router.push("/");
+    if (transactionReceipt?.events?.[0]?.data) {
+      receiptRef.current = transactionReceipt;
+      if (resolveRef.current) {
+        resolveRef.current(transactionReceipt);
+      }
     }
-  }, [isSuccess, router]);
+  }, [transactionReceipt]);
 
   return (
     <div className="text-white overflow-x-hidden flex flex-col items-center text-center bg-primaryBackground bg-[#1E1D1D]">
@@ -218,7 +237,6 @@ function CreateEvent() {
           />,
           document.body
         )}
-
       <Navbar />
       <main className="pt-[74px] pb-[197px]">
         <form onSubmit={handleSubmit} className="lg:max-w-[740px] w-full">
@@ -321,8 +339,7 @@ function CreateEvent() {
                 </h3>
                 <h4 className="text-xs text-[#B1ACAC]">
                   {`${formatTimeWithAmPm(startTime)} - ${formatDisplayDate(
-                    stopDate,
-                    true
+                    stopDate
                   )} at ${formatTimeWithAmPm(stopTime)} ${
                     timezones
                       .find((tz) => tz.value === selectedTimezone)
@@ -344,7 +361,6 @@ function CreateEvent() {
                     ?.label.split(" - ")[1] || ""}
                 </h3>
               </div>
-
               <select
                 id="timezone"
                 value={selectedTimezone}
@@ -397,7 +413,7 @@ function CreateEvent() {
               className="bg-transparent flex-grow rounded-sm px-1 text-[#D9D9D9] text-sm placeholder:text-[#B1ACAC] focus:outline-none"
               id=""
               autoComplete="off"
-            ></input>
+            />
           </div>
 
           <div className="border-[0.3px] border-white py-4 px-3 flex gap-x-2 mt-4 items-start text-white rounded-sm">
@@ -415,9 +431,7 @@ function CreateEvent() {
           </div>
 
           <div className="mt-4  text-white">
-            <h3 className="mb-2 text-sm lg:text-base font-medium">
-              Event Details
-            </h3>
+            <h3 className="mb-2 text-sm lg:text-base font-medium">Event Details</h3>
             <div className="border-[0.3px] border-white py-[14px] px-4 flex flex-col gap-x-2 items-center text-sm lg:text-base rounded-sm divide-y divide-gray-400">
               <div className="flex justify-between w-full items-center pb-3">
                 <div className="flex items-center gap-x-2">
@@ -433,9 +447,7 @@ function CreateEvent() {
                 >
                   <div
                     className={`h-[22px] w-[22px] transform bg-white rounded-full shadow-md transition-transform duration-300 md:h-4 md:w-4 ${
-                      approved
-                        ? "translate-x-5 md:translate-x-8"
-                        : "translate-x-0 "
+                      approved ? "translate-x-5 md:translate-x-8" : "translate-x-0 "
                     }`}
                   />
                 </div>
@@ -447,7 +459,6 @@ function CreateEvent() {
                 </div>
 
                 <div className="flex items-center gap-x-2">
-                  {/* <h4>{!ticketPrice ? "Free" : `$${ticketPrice}`}</h4> */}
                   <div className="flex items-center gap-x-2">
                     {!capacity.length ? (
                       <h4>Unlimited</h4>
@@ -466,7 +477,7 @@ function CreateEvent() {
                       setIsEditingCapacity(true);
                     }}
                   >
-                      <EditIcon />
+                    <EditIcon />
                   </button>
                 </div>
               </div>
@@ -476,7 +487,6 @@ function CreateEvent() {
                   <h4>Tickets</h4>
                 </div>
                 <div className="flex items-center gap-x-2">
-                  {/* <h4>{!ticketPrice ? "Free" : `$${ticketPrice}`}</h4> */}
                   <div className="flex items-center gap-x-2">
                     {!vipTicketPrice && !regularTicketPrice && <h4>Free</h4>}
                     {vipTicketPrice && (
