@@ -24,6 +24,7 @@ import Image from "next/image";
 import Footer from "@/components/Footer";
 import LockBodyScroll from "@/components/LockBodyScroll";
 import { HiChevronDown } from "react-icons/hi2";
+import { HiOutlineMail } from "react-icons/hi";
 import { createEvent } from "@/services/event/createEvent";
 import { useAccount } from "@starknet-react/core";
 import { toast } from "react-hot-toast";
@@ -43,6 +44,7 @@ function CreateEvent() {
 
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
+  const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
   const [approved, setApproved] = useState(false);
   const [regularTicketPrice, setRegularTicketPrice] = useState("");
@@ -87,34 +89,40 @@ function CreateEvent() {
     contractAddress
   );
 
-  // const { data: eventsData } = useContractFetch(
-  //   contractAbi,
-  //   "get_events",
-  //   contractAddress,
-  //   [address]
-  // );
-
   // Update submitEvent to use the data from the hook
   const submitEvent = async () => {
     try {
       // First create the event on-chain
-      await writeAsync();
-      
-      // const eventId = eventsData?.length > 0 ? eventsData[eventsData.length - 1].event_id : 0; 
-      // console.log(eventId)
-      // console.log(eventsData)
-      
+      const tx = await writeAsync();
+      if (!tx) {
+        throw new Error('Transaction failed');
+      }
+  
+      // Wait for transaction confirmation
+      if (!waitData) {
+        throw new Error('On-chain event creation failed');
+      }
+  
+      // Get the event ID from the transaction receipt
+      const eventId = waitData?.events?.[0]?.data;
+      console.log(eventId)
+  
       // Create the event in the backend
       const eventData = {
         name,
         location,
-        event_onchain_id: 20,
+        event_onchain_id: 1,
         event_owner: address,
-        event_email: "unknown@gmail.com",
+        event_email: email,
         event_capacity: parseInt(capacity),
       };
-
+  
       const result = await createEvent(eventData);
+      
+      if (!result.success) {
+        throw new Error(result.message || 'Failed to create event in backend');
+      }
+  
       return result;
     } catch (error) {
       console.error('Error in submitEvent:', error);
@@ -123,15 +131,32 @@ function CreateEvent() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     
     if (!address) {
       toast.error("Please connect your wallet first");
       return;
     }
 
-    if (!name || !location || !capacity) {
-      toast.error("Please fill in all required fields");
+    // Validate required fields
+    const requiredFields = {
+      name: "Event name",
+      location: "Location",
+      email: "Email",
+      capacity: "Capacity"
+    };
+
+    for (const [field, label] of Object.entries(requiredFields)) {
+      if (!eval(field)) {
+        toast.error(`${label} is required`);
+        return;
+      }
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address");
       return;
     }
 
@@ -140,7 +165,7 @@ function CreateEvent() {
       const result = await submitEvent();
       console.log('Submit successful:', result);
       toast.success("Event created successfully!");
-    } catch (error) {
+          } catch (error) {
       console.error('Submit error:', error);
       toast.error(error.message || "Failed to create event");
     } finally {
@@ -150,7 +175,7 @@ function CreateEvent() {
 
   useEffect(() => {
     if (isSuccess) {
-      router.push("/");
+      // router.push("/");
     }
   }, [isSuccess, router]);
 
@@ -353,9 +378,26 @@ function CreateEvent() {
                 }}
                 placeholder="Offline location or virtual location"
                 className="bg-transparent flex-grow w-full rounded-sm p-2 text-[#fff] text-sm placeholder:text-[#B1ACAC] active:bg-none focus:outline-none"
+                autoComplete="off"
                 id=""
               />
             </div>
+          </div>
+
+          <div className="border-[0.3px] border-white py-4 px-3 flex gap-x-2 mt-4 items-center text-white rounded-sm">
+            <HiOutlineMail />
+            <input
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              placeholder="Add your email address"
+              className="bg-transparent flex-grow rounded-sm px-1 text-[#D9D9D9] text-sm placeholder:text-[#B1ACAC] focus:outline-none"
+              id=""
+              autoComplete="off"
+            ></input>
           </div>
 
           <div className="border-[0.3px] border-white py-4 px-3 flex gap-x-2 mt-4 items-start text-white rounded-sm">
