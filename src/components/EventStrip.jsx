@@ -1,6 +1,7 @@
-import sampleThumbnail from "../../public/assets/sample-thumbnail.png";
-import calender from "../../public/assets/calender.svg";
 import Link from "next/link";
+
+const sampleThumbnail = "/assets/sample-thumbnail.png";
+const calendar = "/assets/calender.svg";
 
 function EventStrip({ thumbnail, title, subTitle, date, eventId }) {
   return (
@@ -13,7 +14,7 @@ function EventStrip({ thumbnail, title, subTitle, date, eventId }) {
             {subTitle}
           </h5>
           <h4 className="text-sm text-[#08C51A] gap-x-2 mt-2 flex items-center">
-            <img src={calender} alt="Calendar icon" />
+            <img src={calendar} alt="Calendar icon" />
             {date}
           </h4>
         </div>
