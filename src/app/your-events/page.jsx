@@ -50,19 +50,8 @@ const YourEvents = ({ page, per_page }) => {
   } = useQuery({
     queryKey: [{ event_owner_address: address, page, per_page }],
     queryFn: fetchUserEvents,
+    enabled: !!address,
   });
-
-  if (isLoading) {
-    return <p className="text-white">Loading events...</p>;
-  }
-
-  if (error?.message) {
-    return (
-      <p className="text-white">
-        {error?.message || "No events at the moment..."}
-      </p>
-    );
-  }
 
   return (
     <div className="text-white overflow-x-hidden flex flex-col items-center text-center bg-primaryBackground bg-[#1E1D1D] min-h-screen">
@@ -106,11 +95,19 @@ const YourEvents = ({ page, per_page }) => {
           </button>
         </div>
         <div className="w-[740px] flex flex-col gap-y-4">
-          {events?.length
-            ? events.map((event, index) => (
-                <EventCard key={index} event={event} baseRoute="your-events" />
-              ))
-            : "No events at the moment..."}
+          {!address ? (
+            <p>Please connect your wallet to view your events.</p>
+          ) : isLoading ? (
+            <p className="text-white">Loading your events.</p>
+          ) : error?.message ? (
+            <p className="text-white">{error?.message}</p>
+          ) : events?.length ? (
+            events.map((event, index) => (
+              <EventCard key={index} event={event} baseRoute="your-events" />
+            ))
+          ) : (
+            "You dont have any events, please add one!"
+          )}
           {/* {events.map((event, index) => (
             <EventCard isGoing={event} key={index} baseRoute="your-events" />
           ))} */}
