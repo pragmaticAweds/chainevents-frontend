@@ -57,17 +57,29 @@ function CreateEvent() {
   const resolveRef = useRef(null);
 
   useEffect(() => {
-    const currentDate = new Date();
-    const formatDate = (date) =>
-      date.toISOString().slice(0, 10).replace(/-/g, "/");
-    const formatTime = (date) => date.toTimeString().slice(0, 5);
+    try {
+      const currentDate = new Date();
+      const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}/${month}/${day}`;
+      };
+      const formatTime = (date) => {
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${hours}:${minutes}`;
+      };
 
-    setStartDate(formatDate(currentDate));
-    setStartTime(formatTime(currentDate));
+      setStartDate(formatDate(currentDate));
+      setStartTime(formatTime(currentDate));
 
-    const oneHourLater = new Date(currentDate.getTime() + 60 * 60 * 1000);
-    setStopDate(formatDate(oneHourLater));
-    setStopTime(formatTime(oneHourLater));
+      const oneHourLater = new Date(currentDate.getTime() + 60 * 60 * 1000);
+      setStopDate(formatDate(oneHourLater));
+      setStopTime(formatTime(oneHourLater));
+    } catch (error) {
+      console.error('Error setting initial dates:', error);
+    }
   }, []);
 
   const handleChangeTimezone = (e) => {
@@ -94,24 +106,25 @@ function CreateEvent() {
   const submitEvent = async () => {
     let loadingToast;
     try {
+      // Add form validation before proceeding
+      if (!name || !location || !email || !capacity) {
+        throw new Error('Please fill in all required fields');
+      }
+
       loadingToast = toast.loading('Sending transaction...');
       const tx = await writeAsync();
       
       if (addEventError) {
-        toast.dismiss(loadingToast);
         throw new Error('Transaction failed: ' + addEventError.message);
       }
 
-      toast.loading('Waiting for confirmation...', { id: loadingToast });
-      
       const receipt = await new Promise((resolve, reject) => {
         resolveRef.current = resolve;
-        
-        setTimeout(() => {
-          if (!receiptRef.current) {
-            reject(new Error('Transaction timeout'));
-          }
-        }, 60000);
+        const timeout = setTimeout(() => {
+          reject(new Error('Transaction timeout'));
+        }, 4000);
+
+        return () => clearTimeout(timeout);
       });
 
       toast.loading('Creating event...', { id: loadingToast });
@@ -197,6 +210,29 @@ function CreateEvent() {
       }
     }
   }, [transactionReceipt]);
+
+  // Add error boundary for date picker
+  const handleDateChange = (e, type) => {
+    try {
+      const value = e.target.value;
+      switch(type) {
+        case 'startDate':
+          setStartDate(value);
+          break;
+        case 'startTime':
+          setStartTime(value);
+          break;
+        case 'stopDate':
+          setStopDate(value);
+          break;
+        case 'stopTime':
+          setStopTime(value);
+          break;
+      }
+    } catch (error) {
+      console.error('Error changing date:', error);
+    }
+  };
 
   return (
     <div className="text-white overflow-x-hidden flex flex-col items-center text-center bg-primaryBackground bg-[#1E1D1D]">
@@ -301,13 +337,13 @@ function CreateEvent() {
                     <input
                       type="date"
                       value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
+                      onChange={(e) => handleDateChange(e, 'startDate')}
                       className="rounded-[4px_0_0_4px] bg-[#D9D9D9] py-2 px-4 text-[#1E1D1D]"
                     />
                     <input
                       type="time"
                       value={startTime}
-                      onChange={(e) => setStartTime(e.target.value)}
+                      onChange={(e) => handleDateChange(e, 'startTime')}
                       className="rounded-[0_4px_4px_0px] bg-[#D9D9D9] py-2 px-4 w-[100px] text-[#1E1D1D]"
                     />
                   </div>
@@ -318,13 +354,13 @@ function CreateEvent() {
                     <input
                       type="date"
                       value={stopDate}
-                      onChange={(e) => setStopDate(e.target.value)}
+                      onChange={(e) => handleDateChange(e, 'stopDate')}
                       className="rounded-[4px_0_0_4px] bg-[#D9D9D9] py-2 px-4 text-[#1E1D1D]"
                     />
                     <input
                       type="time"
                       value={stopTime}
-                      onChange={(e) => setStopTime(e.target.value)}
+                      onChange={(e) => handleDateChange(e, 'stopTime')}
                       className="rounded-[0_4px_4px_0px] bg-[#D9D9D9] py-2 w-[100px] px-4 text-[#1E1D1D]"
                     />
                   </div>
