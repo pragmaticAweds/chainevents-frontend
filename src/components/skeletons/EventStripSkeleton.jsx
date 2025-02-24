@@ -2,7 +2,7 @@ import React from "react";
 
 const EventStripSkeleton = () => {
   return (
-    <div className="w-full py-[22px] px-[24px] bg-[#0D0C0C] flex justify-between items-center animate-pulse">
+    <div className="max-w-[700px] md:w-[600px] py-[22px] px-[24px] bg-[#0D0C0C] flex justify-between items-center animate-pulse">
       <div className="flex items-stretch gap-x-[11px]">
         <div className="w-[100px] h-[100px] bg-gray-200 rounded" />
 
