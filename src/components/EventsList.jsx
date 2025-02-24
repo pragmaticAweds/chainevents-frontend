@@ -39,7 +39,7 @@ function EventsList() {
               title={event.name}
               subTitle={event.description || "No description available"}
               date={event.event_start_date || "Date not available"}
-              thumbnail={event.event_image_url || "/default-thumbnail.png"}
+              thumbnail={event.event_image_url || "assets/eventImg.jpeg"}
               id={event.id}
             />
           ))
