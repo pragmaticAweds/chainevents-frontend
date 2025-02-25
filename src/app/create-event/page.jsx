@@ -316,7 +316,7 @@ function CreateEvent() {
                   },
                 ]}
               />
-              <div className="absolute z-10 top-[10px] right-3 text-black">
+              <div className="absolute z-10 top-[10px] right-3 text-white">
                 <HiChevronDown />
               </div>
             </div>

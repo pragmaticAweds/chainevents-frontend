@@ -5,6 +5,11 @@ import XIcon from "../icons/XIcon";
 
 export default function SetCapacityModal({ setOpen, handleSetCapacity }) {
   const [capacity, setCapacity] = useState("");
+  
+  const capacityOptions = [
+    10, 25, 50, 100, 150, 200, 250, 500, 1000
+  ];
+
   return (
     <div className="absolute inset-0 flex justify-center pt-[150px] bg-black bg-opacity-80 backdrop-blur-sm px-6 z-20">
       <div className="p-5 lg:p-[34px] border-[0.4px] rounded-[10px] border-[#F5DB95CC] flex flex-col relative h-fit bg-[#1E1D1D] text-[#D9D9D9] lg:w-[492px] w-full font-normal">
@@ -27,15 +32,18 @@ export default function SetCapacityModal({ setOpen, handleSetCapacity }) {
         <form className="text-sm lg:text-base font-medium text-white">
           <div className="flex flex-col gap-y-2 mb-2 lg:mb-4">
             <label htmlFor="capacity">Capacity</label>
-            <input
-              type="number"
+            <select
               value={capacity}
-              min="1"
-              onChange={(e) => {
-                setCapacity(e.target.value);
-              }}
-              className="bg-transparent p-2 lg:p-3 border-[0.3px] border-white rounded-sm outline-none appearance-none"
-            />
+              onChange={(e) => setCapacity(e.target.value)}
+              className="bg-transparent p-2 lg:p-3 border-[0.3px] border-white rounded-sm outline-none [&>option]:text-black"
+            >
+              <option value="" className="">Select capacity</option>
+              {capacityOptions.map((option) => (
+                <option key={option} value={option} className="bg-white text-black">
+                  {option} people
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="grid grid-cols-2 mt-5 lg:mt-10 gap-x-4 text-sm">
