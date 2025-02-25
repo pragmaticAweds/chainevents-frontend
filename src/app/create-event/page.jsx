@@ -299,7 +299,7 @@ function CreateEvent() {
               />
             </div>
             <div className="relative">
-              <div className="absolute z-10 top-[10px] left-3 text-black">
+              <div className="absolute z-10 top-[10px] left-3 text-white">
                 <GlobeIcon />
               </div>
               <Select
@@ -429,15 +429,14 @@ function CreateEvent() {
                   setLocation(e.target.value);
                 }}
                 placeholder="Offline location or virtual location"
-                className="bg-transparent flex-grow w-full rounded-sm p-2 text-[#fff] text-sm placeholder:text-[#B1ACAC] active:bg-none focus:outline-none"
-                autoComplete="off"
+                className="bg-transparent flex-grow border-[0.15px] w-full rounded-sm border-white p-2 text-[#B1ACAC] text-sm placeholder:text-[#D9D9D9]"
                 id=""
               />
             </div>
           </div>
 
           <div className="border-[0.3px] border-white py-4 px-3 flex gap-x-2 mt-4 items-center text-white rounded-sm">
-            <HiOutlineMail />
+            <HiOutlineMail size='20' />
             <input
               name="email"
               type="email"
@@ -446,9 +445,8 @@ function CreateEvent() {
                 setEmail(e.target.value);
               }}
               placeholder="Add your email address"
-              className="bg-transparent flex-grow rounded-sm px-1 text-[#D9D9D9] text-sm placeholder:text-[#B1ACAC] focus:outline-none"
+              className="bg-transparent flex-grow border-[0.15px] w-full rounded-sm border-white p-2 text-[#B1ACAC] text-sm placeholder:text-[#D9D9D9]"
               id=""
-              autoComplete="off"
             />
           </div>
 
@@ -461,7 +459,7 @@ function CreateEvent() {
                 setDescription(e.target.value);
               }}
               placeholder="Add description"
-              className="bg-transparent flex-grow rounded-sm px-1 text-[#D9D9D9] text-sm placeholder:text-[#B1ACAC] focus:outline-none"
+              className="bg-transparent flex-grow rounded-sm border-[0.15px] border-white p-2 text-[#D9D9D9] text-sm placeholder:text-[#D9D9D9]"              
               id=""
             ></textarea>
           </div>
