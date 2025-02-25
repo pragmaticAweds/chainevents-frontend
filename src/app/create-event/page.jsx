@@ -57,29 +57,18 @@ function CreateEvent() {
   const resolveRef = useRef(null);
 
   useEffect(() => {
-    try {
-      const currentDate = new Date();
-      const formatDate = (date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}/${month}/${day}`;
-      };
-      const formatTime = (date) => {
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        return `${hours}:${minutes}`;
-      };
+    const currentDate = new Date();
 
-      setStartDate(formatDate(currentDate));
-      setStartTime(formatTime(currentDate));
+    const formatDate = (date) =>
+      date.toISOString().slice(0, 10).replace(/-/g, "/");
+    const formatTime = (date) => date.toTimeString().slice(0, 5);
 
-      const oneHourLater = new Date(currentDate.getTime() + 60 * 60 * 1000);
-      setStopDate(formatDate(oneHourLater));
-      setStopTime(formatTime(oneHourLater));
-    } catch (error) {
-      console.error('Error setting initial dates:', error);
-    }
+    setStartDate(formatDate(currentDate));
+    setStartTime(formatTime(currentDate));
+
+    const oneHourLater = new Date(currentDate.getTime() + 60 * 60 * 1000);
+    setStopDate(formatDate(oneHourLater));
+    setStopTime(formatTime(oneHourLater));
   }, []);
 
   const handleChangeTimezone = (e) => {
@@ -211,29 +200,6 @@ function CreateEvent() {
     }
   }, [transactionReceipt]);
 
-  // Add error boundary for date picker
-  const handleDateChange = (e, type) => {
-    try {
-      const value = e.target.value;
-      switch(type) {
-        case 'startDate':
-          setStartDate(value);
-          break;
-        case 'startTime':
-          setStartTime(value);
-          break;
-        case 'stopDate':
-          setStopDate(value);
-          break;
-        case 'stopTime':
-          setStopTime(value);
-          break;
-      }
-    } catch (error) {
-      console.error('Error changing date:', error);
-    }
-  };
-
   return (
     <div className="text-white overflow-x-hidden flex flex-col items-center text-center bg-primaryBackground bg-[#1E1D1D]">
       <LockBodyScroll
@@ -337,14 +303,14 @@ function CreateEvent() {
                     <input
                       type="date"
                       value={startDate}
-                      onChange={(e) => handleDateChange(e, 'startDate')}
+                      onChange={(e) => setStartDate(e.target.value)}
                       className="rounded-[4px_0_0_4px] bg-[#D9D9D9] py-2 px-4 text-[#1E1D1D]"
                     />
                     <input
                       type="time"
                       value={startTime}
-                      onChange={(e) => handleDateChange(e, 'startTime')}
-                      className="rounded-[0_4px_4px_0px] bg-[#D9D9D9] py-2 px-4 w-[100px] text-[#1E1D1D]"
+                      onChange={(e) => setStartTime(e.target.value)}
+                      className="rounded-[0_4px_4px_0px] bg-[#D9D9D9] py-2 px-4 w-[104px] text-[#1E1D1D]"
                     />
                   </div>
                 </div>
@@ -354,14 +320,14 @@ function CreateEvent() {
                     <input
                       type="date"
                       value={stopDate}
-                      onChange={(e) => handleDateChange(e, 'stopDate')}
+                      onChange={(e) => setStopDate(e.target.value)}
                       className="rounded-[4px_0_0_4px] bg-[#D9D9D9] py-2 px-4 text-[#1E1D1D]"
                     />
                     <input
                       type="time"
                       value={stopTime}
-                      onChange={(e) => handleDateChange(e, 'stopTime')}
-                      className="rounded-[0_4px_4px_0px] bg-[#D9D9D9] py-2 w-[100px] px-4 text-[#1E1D1D]"
+                      onChange={(e) => setStopTime(e.target.value)}
+                      className="rounded-[0_4px_4px_0px] bg-[#D9D9D9] py-2 w-[104px] px-4 text-[#1E1D1D]"
                     />
                   </div>
                 </div>
@@ -375,7 +341,8 @@ function CreateEvent() {
                 </h3>
                 <h4 className="text-xs text-[#B1ACAC]">
                   {`${formatTimeWithAmPm(startTime)} - ${formatDisplayDate(
-                    stopDate
+                    stopDate,
+                    true
                   )} at ${formatTimeWithAmPm(stopTime)} ${
                     timezones
                       .find((tz) => tz.value === selectedTimezone)
