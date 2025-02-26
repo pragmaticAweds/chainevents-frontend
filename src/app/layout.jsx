@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "../components/Providers";
+import { Toaster } from 'react-hot-toast';
 import { TanstackQueryProvider } from "@/components/provider/TanstackQueryProvider";
 
 const geistSans = Geist({
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
 
         <TanstackQueryProvider>
           <Providers>{children}</Providers>
+          <Toaster position="bottom-left" />
         </TanstackQueryProvider>
       </body>
     </html>

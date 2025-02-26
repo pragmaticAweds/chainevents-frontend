@@ -7,7 +7,7 @@ import GlobeIcon from "../../icons/GlobeIcon";
 import MapPinIcon from "../../icons/MapPinIcon";
 import FileIcon from "../../icons/FileIcon";
 import ApprovalIcon from "../../icons/ApprovalIcon";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import UploadIcon from "../../icons/UploadIcon";
 import TicketsIcon from "../../icons/TicketsIcon";
 import { createPortal } from "react-dom";
@@ -23,6 +23,11 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 import LockBodyScroll from "@/components/LockBodyScroll";
+import { HiChevronDown } from "react-icons/hi2";
+import { HiOutlineMail } from "react-icons/hi";
+import { createEvent } from "@/services/event/createEvent";
+import { useAccount } from "@starknet-react/core";
+import { toast } from "react-hot-toast";
 
 function CreateEvent() {
   const [isEditingPrice, setIsEditingPrice] = useState(false);
@@ -39,12 +44,18 @@ function CreateEvent() {
 
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
+  const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
   const [approved, setApproved] = useState(false);
   const [regularTicketPrice, setRegularTicketPrice] = useState("");
   const [vipTicketPrice, setVipTicketPrice] = useState("");
   const [capacity, setCapacity] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { address } = useAccount();
+  const receiptRef = useRef(null);
+  const resolveRef = useRef(null);
+
   useEffect(() => {
     const currentDate = new Date();
 
@@ -74,22 +85,120 @@ function CreateEvent() {
     setCapacity(capacity);
     setIsEditingCapacity(false);
   }
-  const { writeAsync, isSuccess } = useContractWriteUtility(
+  const { writeAsync, error: addEventError, waitData: transactionReceipt } = useContractWriteUtility(
     "add_event",
     [name, location],
     contractAbi,
     contractAddress
   );
-  async function handleSubmit() {
-    if (!name && !location) return;
-    await writeAsync();
-  }
 
-  useEffect(() => {
-    if (isSuccess) {
-      router.push("/");
+  const submitEvent = async () => {
+    let loadingToast;
+    try {
+      // Add form validation before proceeding
+      if (!name || !location || !email || !capacity) {
+        throw new Error('Please fill in all required fields');
+      }
+
+      loadingToast = toast.loading('Sending transaction...');
+      const tx = await writeAsync();
+      
+      if (addEventError) {
+        throw new Error('Transaction failed: ' + addEventError.message);
+      }
+
+      const receipt = await new Promise((resolve, reject) => {
+        resolveRef.current = resolve;
+        const timeout = setTimeout(() => {
+          reject(new Error('Transaction timeout'));
+        }, 4000);
+
+        return () => clearTimeout(timeout);
+      });
+
+      toast.loading('Creating event...', { id: loadingToast });
+
+      const eventId = receipt.events[0].data[3];
+
+      // Create the event in the backend
+      const eventData = {
+        name,
+        location,
+        event_onchain_id: parseInt(eventId, 16),
+        event_owner: address,
+        event_email: email,
+        event_capacity: parseInt(capacity),
+      };
+      
+      const result = await createEvent(eventData);
+      
+      if (!result.success) {
+        throw new Error(result.message || 'Failed to create event in backend');
+      }
+
+      toast.dismiss(loadingToast);
+      return result;
+    } catch (error) {
+      console.error('Error in submitEvent:', error);
+      if (loadingToast) {
+        toast.dismiss(loadingToast);
+      }
+      throw error;
     }
-  }, [isSuccess, router]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!address) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
+
+    // Validate required fields
+    const requiredFields = {
+      name: "Event name",
+      location: "Location",
+      email: "Email",
+      capacity: "Capacity"
+    };
+
+    for (const [field, label] of Object.entries(requiredFields)) {
+      if (!eval(field)) {
+        toast.error(`${label} is required`);
+        return;
+      }
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const result = await submitEvent();
+      toast.success("Event created successfully!");
+      router.push("/"); 
+    } catch (error) {
+      console.error('Submit error:', error);
+      toast.error(error.message || "Failed to create event");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Monitor transaction status and resolve the promise when we have data
+  useEffect(() => {
+    if (transactionReceipt?.events?.[0]?.data) {
+      receiptRef.current = transactionReceipt;
+      if (resolveRef.current) {
+        resolveRef.current(transactionReceipt);
+      }
+    }
+  }, [transactionReceipt]);
 
   return (
     <div className="text-white overflow-x-hidden flex flex-col items-center text-center bg-primaryBackground bg-[#1E1D1D]">
@@ -130,10 +239,9 @@ function CreateEvent() {
           />,
           document.body
         )}
-
       <Navbar />
       <main className="pt-[74px] pb-[197px]">
-        <div className="lg:max-w-[740px] w-full">
+        <form onSubmit={handleSubmit} className="lg:max-w-[740px] w-full">
           <Image
             src={"/assets/testEventBanner.png"}
             className="w-full h-[302px] lg:h-[154px]"
@@ -174,6 +282,9 @@ function CreateEvent() {
                   },
                 ]}
               />
+              <div className="absolute z-10 top-[10px] right-3 text-white">
+                <HiChevronDown />
+              </div>
             </div>
           </div>
           <div className="grid grid-cols-[1fr] lg:grid-cols-[2.3fr_1fr] gap-x-4">
@@ -253,7 +364,6 @@ function CreateEvent() {
                     ?.label.split(" - ")[1] || ""}
                 </h3>
               </div>
-
               <select
                 id="timezone"
                 value={selectedTimezone}
@@ -293,6 +403,21 @@ function CreateEvent() {
           </div>
 
           <div className="border-[0.3px] border-white py-4 px-3 flex gap-x-2 mt-4 items-center text-white rounded-sm">
+            <HiOutlineMail size='20' />
+            <input
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              placeholder="Add your email address"
+              className="bg-transparent flex-grow border-[0.15px] w-full rounded-sm border-white p-2 text-[#B1ACAC] text-sm placeholder:text-[#D9D9D9]"
+              id=""
+            />
+          </div>
+
+          <div className="border-[0.3px] border-white py-4 px-3 flex gap-x-2 mt-4 items-start text-white rounded-sm">
             <FileIcon />
             <textarea
               name="description"
@@ -301,17 +426,16 @@ function CreateEvent() {
                 setDescription(e.target.value);
               }}
               placeholder="Add description"
-              className="bg-transparent flex-grow rounded-sm border-[0.15px] border-white p-2 text-[#D9D9D9] text-sm placeholder:text-[#D9D9D9]"
+              className="bg-transparent flex-grow rounded-sm border-[0.15px] border-white p-2 text-[#D9D9D9] text-sm placeholder:text-[#D9D9D9]"              
               id=""
             ></textarea>
           </div>
+
           <div className="mt-4  text-white">
-            <h3 className="mb-2 text-sm lg:text-base font-medium">
-              Event Details
-            </h3>
+            <h3 className="mb-2 text-sm lg:text-base font-medium">Event Details</h3>
             <div className="border-[0.3px] border-white py-[14px] px-4 flex flex-col gap-x-2 items-center text-sm lg:text-base rounded-sm divide-y divide-gray-400">
               <div className="flex justify-between w-full items-center pb-3">
-                <div className="flex items-center gap-x-1">
+                <div className="flex items-center gap-x-2">
                   <ApprovalIcon />
                   <h4>Approval</h4>
                 </div>
@@ -324,21 +448,18 @@ function CreateEvent() {
                 >
                   <div
                     className={`h-[22px] w-[22px] transform bg-white rounded-full shadow-md transition-transform duration-300 md:h-4 md:w-4 ${
-                      approved
-                        ? "translate-x-5 md:translate-x-8"
-                        : "translate-x-0 "
+                      approved ? "translate-x-5 md:translate-x-8" : "translate-x-0 "
                     }`}
                   />
                 </div>
               </div>
               <div className="flex justify-between w-full items-center py-3">
-                <div className="flex items-center gap-x-1">
+                <div className="flex items-center gap-x-2">
                   <UploadIcon />
                   <h4>Capacity</h4>
                 </div>
 
                 <div className="flex items-center gap-x-2">
-                  {/* <h4>{!ticketPrice ? "Free" : `$${ticketPrice}`}</h4> */}
                   <div className="flex items-center gap-x-2">
                     {!capacity.length ? (
                       <h4>Unlimited</h4>
@@ -362,12 +483,11 @@ function CreateEvent() {
                 </div>
               </div>
               <div className="flex justify-between w-full items-center pt-3">
-                <div className="flex items-center gap-x-1">
+                <div className="flex items-center gap-x-2">
                   <TicketsIcon />
                   <h4>Tickets</h4>
                 </div>
                 <div className="flex items-center gap-x-2">
-                  {/* <h4>{!ticketPrice ? "Free" : `$${ticketPrice}`}</h4> */}
                   <div className="flex items-center gap-x-2">
                     {!vipTicketPrice && !regularTicketPrice && <h4>Free</h4>}
                     {vipTicketPrice && (
@@ -401,12 +521,21 @@ function CreateEvent() {
           </div>
 
           <button
-            onClick={handleSubmit}
-            className="w-full py-3 bg-[#000000] border-white border-[0.5px] rounded-sm text-sm lg:text-xl font-regular text-white mt-6"
+            type="submit"
+            disabled={isLoading}
+            className={`w-full py-3 border-white border-[0.5px] rounded-sm text-sm lg:text-xl font-regular text-white mt-6 
+              ${isLoading ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#000000] hover:bg-gray-900'}`}
           >
-            Create event
+            {isLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-5 h-5 border-t-2 border-white rounded-full animate-spin" />
+                <span>Creating event...</span>
+              </div>
+            ) : (
+              'Create event'
+            )}
           </button>
-        </div>
+        </form>
       </main>
       <Footer />
     </div>
