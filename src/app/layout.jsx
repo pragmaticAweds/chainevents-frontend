@@ -3,6 +3,8 @@ import "./globals.css";
 import { Providers } from "../components/Providers";
 import { Toaster } from 'react-hot-toast';
 import { TanstackQueryProvider } from "@/components/provider/TanstackQueryProvider";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 const geistSans = Geist({
@@ -23,14 +25,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className=" bg-primaryBackground bg-[#1E1D1D]">
 
         <TanstackQueryProvider>
           <Providers>
             <ProtectedRoute>
+              <Navbar />
               {children}
+              <Footer />
             </ProtectedRoute>
-          </Providers>
+            </Providers>
           <Toaster position="bottom-left" />
         </TanstackQueryProvider>
       </body>
