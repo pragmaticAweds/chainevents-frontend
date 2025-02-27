@@ -78,7 +78,7 @@ function Navbar() {
             </AnimatePresence>
           )}
 
-          <div className="flex-1 flex justify-start lg:justify-center">
+          <div className="flex-1 flex justify-start">
             <Logo />
           </div>
 
