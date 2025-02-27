@@ -33,7 +33,7 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isToggle, setIsToggle] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const router = useRouter();
 
@@ -95,7 +95,7 @@ function Navbar() {
         {/* Desktop navigation */}
         <Logo />
         <ul className="gap-x-[55px] items-center lg:flex hidden">
-          {navLinks.map((link, i) => (
+          {isConnected && navLinks.map((link, i) => (
             <Link href={link.to} key={i}>
               <li className="flex justify-center whitespace-nowrap items-center gap-x-2">
                 <Image
