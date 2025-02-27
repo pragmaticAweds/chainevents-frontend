@@ -12,7 +12,7 @@ const ConnectModal = ({ setIsOpen }) => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="md:w-[380px] h-[252px] flex px-3   flex-col gap-2 items-center justify-center bg-white  rounded-lg shadow-xl shadow-[rgba(0,0,0,0.2)] loading-gradient
+        className="md:w-[380px] h-[252px] flex px-3 min-w-[300px]   flex-col gap-2 items-center justify-center bg-white  rounded-lg shadow-xl shadow-[rgba(0,0,0,0.2)] loading-gradient
  "
       >
         {connectors.map((connector) => (
