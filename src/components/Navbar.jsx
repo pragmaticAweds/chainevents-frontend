@@ -78,7 +78,11 @@ function Navbar() {
             </AnimatePresence>
           )}
 
-          {/* Burger menu icon for mobile */}
+          <div className="flex-1 flex justify-start lg:justify-center">
+            <Logo />
+          </div>
+
+         
           <div className="lg:hidden">
             <button
               onClick={onToggleNav}
@@ -95,10 +99,6 @@ function Navbar() {
           </div>
 
           {/* Desktop navigation */}
-          <div className="md:flex-1 flex justify-center lg:justify-start">
-            <Logo />
-          </div>
-
           <ul className="gap-x-[55px] items-center lg:flex hidden md:mr-4">
             {navLinks.map((link, i) => (
               <Link href={link.to} key={i}>
