@@ -3,6 +3,7 @@ import "./globals.css";
 import { Providers } from "../components/Providers";
 import { Toaster } from 'react-hot-toast';
 import { TanstackQueryProvider } from "@/components/provider/TanstackQueryProvider";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +26,11 @@ export default function RootLayout({ children }) {
       <body>
 
         <TanstackQueryProvider>
-          <Providers>{children}</Providers>
+          <Providers>
+            <ProtectedRoute>
+              {children}
+            </ProtectedRoute>
+          </Providers>
           <Toaster position="bottom-left" />
         </TanstackQueryProvider>
       </body>
