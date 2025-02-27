@@ -51,7 +51,7 @@ function Navbar() {
     if (isToggle) setIsToggle(false);
     router.push("/");
   }
-  
+
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
@@ -95,10 +95,10 @@ function Navbar() {
           </div>
 
           {/* Desktop navigation */}
-          <div className="flex-1 flex justify-center lg:justify-start">
+          <div className="md:flex-1 flex justify-center lg:justify-start">
             <Logo />
           </div>
-          
+
           <ul className="gap-x-[55px] items-center lg:flex hidden md:mr-4">
             {navLinks.map((link, i) => (
               <Link href={link.to} key={i}>
@@ -119,14 +119,14 @@ function Navbar() {
           {/* Connect/Disconnect Wallet button */}
           {!address ? (
             <button
-              className="py-2 lg:py-3 px-5 lg:px-[18px] bg-[#C4C4C433] rounded-full text-white font-medium text-sm leading-[18px] w-[166px] text-center"
+              className="py-2 lg:py-3 px-5 hidden lg:block lg:px-[18px] bg-[#C4C4C433] rounded-full text-white font-medium text-sm leading-[18px] w-[166px] text-center"
               onClick={onConnect}
             >
               Connect Wallet
             </button>
           ) : (
             <button
-              className="flex items-center gap-x-[10px] py-2 lg:py-3 px-5 lg:px-[18px] bg-[#C4C4C433] rounded-full text-white font-medium text-sm leading-[18px] w-[166px] text-center"
+              className=" items-center hidden lg:flex gap-x-[10px] py-2 lg:py-3 px-5 lg:px-[18px] bg-[#C4C4C433] rounded-full text-white font-medium text-sm leading-[18px] w-[166px] text-center"
               onClick={toggleSidebar}
             >
               <Image
@@ -146,13 +146,13 @@ function Navbar() {
 
       {/* Mobile Navigation Menu */}
       {isToggle && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           className="lg:hidden absolute top-24 left-0 right-0 z-50 mx-4 md:mx-[65px] bg-[#1E1D1D] rounded-xl shadow-lg overflow-hidden"
         >
-          <ul className="flex flex-col py-4">
+          <ul className="flex flex-col py-4 text-white">
             {navLinks.map((link, i) => (
               <Link href={link.to} key={i} onClick={() => setIsToggle(false)}>
                 <li className="flex items-center gap-x-3 px-6 py-3 hover:bg-[#C4C4C433]">
@@ -167,6 +167,33 @@ function Navbar() {
                 </li>
               </Link>
             ))}
+            {!address ? (
+              <li
+                className="py-2 lg:py-3 px-5 m-4  lg:px-[18px] bg-[#C4C4C433] rounded-full text-white font-medium text-sm leading-[18px] w-[166px] text-center"
+                onClick={onConnect}
+              >
+                Connect Wallet
+              </li>
+            ) : (
+              <li
+                className=" items-center flex m-4 gap-x-[10px] py-2 lg:py-3 px-5 lg:px-[18px] bg-[#C4C4C433] rounded-full text-white font-medium text-sm leading-[18px] w-[166px] text-center"
+                onClick={toggleSidebar}
+              >
+                <Image
+                  src="/assets/argentLogo.svg"
+                  className="lg:h-[18px] h-5 w-5 lg:w-[18px]"
+                  alt=""
+                  width={18}
+                  height={18}
+                />
+                <span>
+                  {address
+                    ?.slice(0, 6)
+                    .concat("...")
+                    .concat(address?.slice(-4))}
+                </span>
+              </li>
+            )}
           </ul>
         </motion.div>
       )}
