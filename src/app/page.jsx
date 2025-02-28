@@ -1,13 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import GenericModal from "../components/GenericModal";
-import { createPortal } from "react-dom";
 import Link from "next/link";
 import { useAccount } from "@starknet-react/core";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
-import EventCard from "@/components/EventCard";
+import Pagination from "@/components/Pagination";
 
 function HomePage() {
   const { address } = useAccount();
@@ -82,7 +78,6 @@ function HomePage() {
           </>
         )}
       </main>
-
     </div>
   );
 }

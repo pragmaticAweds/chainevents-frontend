@@ -1,8 +1,6 @@
 "use client";
 import { contractAbi } from "@/abi/abi";
-import Footer from "@/components/Footer";
 import HostsCard from "@/components/HostsCard";
-import Navbar from "@/components/Navbar";
 import VisibilityCard from "@/components/VisibilityCard";
 import { contractAddress } from "@/utils/address";
 import { useContractFetch } from "@/utils/helpers";
@@ -69,7 +67,6 @@ function page({ params }) {
 
   return (
     <div className="text-white overflow-x-hidden flex flex-col items-center bg-primaryBackground bg-[#1E1D1D] min-h-screen">
-      <Navbar />
       <main className="pt-[74px] pb-[197px] grid grid-cols-[340px_750px] w-full">
         <div className="px-[80px]">
           <ul className="flex flex-col gap-y-6 text-base font-medium">
@@ -111,7 +108,6 @@ function page({ params }) {
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
