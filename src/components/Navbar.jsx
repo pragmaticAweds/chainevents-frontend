@@ -78,7 +78,7 @@ function Navbar() {
             </AnimatePresence>
           )}
 
-          <div className="flex-1 flex justify-start">
+          <div className="flex justify-start">
             <Logo />
           </div>
 
@@ -153,7 +153,7 @@ function Navbar() {
           className="lg:hidden absolute top-24 left-0 right-0 z-50 mx-4 md:mx-[65px] bg-[#1E1D1D] rounded-xl shadow-lg overflow-hidden"
         >
           <ul className="flex flex-col py-4 text-white">
-            {navLinks.map((link, i) => (
+            {isConnected && navLinks.map((link, i) => (
               <Link href={link.to} key={i} onClick={() => setIsToggle(false)}>
                 <li className="flex items-center gap-x-3 px-6 py-3 hover:bg-[#C4C4C433]">
                   <Image

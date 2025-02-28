@@ -91,7 +91,7 @@ const ProfilePage = () => {
 
   return (
     <div className="bg-primaryBackground bg-[#1E1D1D] text-white min-h-screen">
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="flex flex-col items-center px-4 sm:px-6 lg:px-8 py-6">
         {/* Profile Card Section */}
         <div className="bg-[#1E1D1D] px-6 py-6 border border-gray-400 rounded-[4px] w-full max-w-sm lg:max-w-[740px]">
@@ -142,7 +142,7 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 };

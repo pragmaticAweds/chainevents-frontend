@@ -69,7 +69,7 @@ function page({ params }) {
 
   return (
     <div className="text-white overflow-x-hidden flex flex-col items-center bg-primaryBackground bg-[#1E1D1D] min-h-screen">
-      <Navbar />
+      {/* <Navbar /> */}
       <main className="pt-[74px] pb-[197px] grid grid-cols-[340px_750px] w-full">
         <div className="px-[80px]">
           <ul className="flex flex-col gap-y-6 text-base font-medium">
@@ -111,7 +111,7 @@ function page({ params }) {
           </div>
         </div>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

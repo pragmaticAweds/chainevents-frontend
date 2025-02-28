@@ -239,7 +239,7 @@ function CreateEvent() {
           />,
           document.body
         )}
-      <Navbar />
+      {/* <Navbar /> */}
       <main className="pt-[74px] pb-[197px]">
         <form onSubmit={handleSubmit} className="lg:max-w-[740px] w-full">
           <Image
@@ -537,7 +537,7 @@ function CreateEvent() {
           </button>
         </form>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

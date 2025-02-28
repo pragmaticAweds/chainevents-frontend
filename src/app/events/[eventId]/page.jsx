@@ -92,7 +92,7 @@ function page({ params }) {
 
   return (
     <div className="text-white overflow-x-hidden flex flex-col items-center bg-primaryBackground bg-[#1E1D1D] min-h-screen">
-      <Navbar />
+      {/* <Navbar /> */}
       <main className="pt-[74px] pb-[197px]">
         <div className="w-[740px] mx-auto bg-[#1E1D1D] rounded border-[.3px] border-[#FFFFFF] p-4 grid grid-cols-[250px_1fr] gap-x-6">
           <div>
@@ -197,7 +197,7 @@ function page({ params }) {
           </div>
         </div>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

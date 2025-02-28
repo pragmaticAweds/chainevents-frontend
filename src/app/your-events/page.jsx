@@ -55,7 +55,7 @@ const YourEvents = ({ page, per_page }) => {
 
   return (
     <div className="text-white overflow-x-hidden flex flex-col items-center text-center bg-primaryBackground bg-[#1E1D1D] min-h-screen">
-      <Navbar />
+      {/* <Navbar /> */}
       <main className="pt-[74px] pb-[197px]">
         <div className="flex justify-between mb-4 items-center w-[740px]">
           <h1 className="text-base leading-5 font-medium text-white">
@@ -113,7 +113,7 @@ const YourEvents = ({ page, per_page }) => {
           ))} */}
         </div>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

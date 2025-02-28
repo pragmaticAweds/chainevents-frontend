@@ -36,7 +36,7 @@ const Registration = () => {
 
     return (
         <div className="min-h-screen bg-primaryBackground text-white">
-            <Navbar />
+            {/* <Navbar /> */}
             
             <div className="flex flex-col md:flex-row mt-7">
                 {/* Sidebar */}
@@ -195,7 +195,7 @@ const Registration = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 };
