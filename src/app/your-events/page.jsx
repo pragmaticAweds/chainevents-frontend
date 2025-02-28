@@ -1,13 +1,11 @@
 "use client";
 
 import Image from "next/image";
-
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import EventCard from "@/components/EventCard";
 
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "@starknet-react/core";
+import { ChevronDown } from "lucide-react";
 const fetchUserEvents = async ({ queryKey }) => {
   const { event_owner_address, page, per_page } = queryKey[0];
 
@@ -55,7 +53,6 @@ const YourEvents = ({ page, per_page }) => {
 
   return (
     <div className="text-white overflow-x-hidden flex flex-col items-center text-center bg-primaryBackground bg-[#1E1D1D] min-h-screen">
-      {/* <Navbar /> */}
       <main className="pt-[74px] pb-[197px]">
         <div className="flex justify-between mb-4 items-center w-[740px]">
           <h1 className="text-base leading-5 font-medium text-white">
@@ -70,28 +67,7 @@ const YourEvents = ({ page, per_page }) => {
               alt=""
             />
             <span>Public</span>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M7 10l5 5 5-5"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M7 10l5 5 5-5"
-                stroke="currentColor"
-                strokeWidth={"2"}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ChevronDown />
           </button>
         </div>
         <div className="w-[740px] flex flex-col gap-y-4">
@@ -108,12 +84,13 @@ const YourEvents = ({ page, per_page }) => {
           ) : (
             "You dont have any events, please add one!"
           )}
-          {/* {events.map((event, index) => (
-            <EventCard isGoing={event} key={index} baseRoute="your-events" />
-          ))} */}
         </div>
+        {events && events.length > 0 && (
+        <div className="mt-[34px] flex w-full justify-end">
+          <Pagination count={events.length} />
+        </div>
+      )}
       </main>
-      {/* <Footer /> */}
     </div>
   );
 };

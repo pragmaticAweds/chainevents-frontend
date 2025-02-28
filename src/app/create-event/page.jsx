@@ -1,6 +1,4 @@
 "use client";
-
-import Navbar from "../../components/Navbar";
 import EditIcon from "../../icons/EditIcon";
 import Select from "../../components/Select";
 import GlobeIcon from "../../icons/GlobeIcon";
@@ -21,7 +19,6 @@ import { contractAddress } from "../../utils/address";
 import { useContractWriteUtility } from "../../utils/helpers";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Footer from "@/components/Footer";
 import LockBodyScroll from "@/components/LockBodyScroll";
 import { HiChevronDown } from "react-icons/hi2";
 import { HiOutlineMail } from "react-icons/hi";
@@ -85,7 +82,11 @@ function CreateEvent() {
     setCapacity(capacity);
     setIsEditingCapacity(false);
   }
-  const { writeAsync, error: addEventError, waitData: transactionReceipt } = useContractWriteUtility(
+  const {
+    writeAsync,
+    error: addEventError,
+    waitData: transactionReceipt,
+  } = useContractWriteUtility(
     "add_event",
     [name, location],
     contractAbi,
@@ -97,26 +98,26 @@ function CreateEvent() {
     try {
       // Add form validation before proceeding
       if (!name || !location || !email || !capacity) {
-        throw new Error('Please fill in all required fields');
+        throw new Error("Please fill in all required fields");
       }
 
-      loadingToast = toast.loading('Sending transaction...');
+      loadingToast = toast.loading("Sending transaction...");
       const tx = await writeAsync();
-      
+
       if (addEventError) {
-        throw new Error('Transaction failed: ' + addEventError.message);
+        throw new Error("Transaction failed: " + addEventError.message);
       }
 
       const receipt = await new Promise((resolve, reject) => {
         resolveRef.current = resolve;
         const timeout = setTimeout(() => {
-          reject(new Error('Transaction timeout'));
+          reject(new Error("Transaction timeout"));
         }, 4000);
 
         return () => clearTimeout(timeout);
       });
 
-      toast.loading('Creating event...', { id: loadingToast });
+      toast.loading("Creating event...", { id: loadingToast });
 
       const eventId = receipt.events[0].data[3];
 
@@ -129,17 +130,17 @@ function CreateEvent() {
         event_email: email,
         event_capacity: parseInt(capacity),
       };
-      
+
       const result = await createEvent(eventData);
-      
+
       if (!result.success) {
-        throw new Error(result.message || 'Failed to create event in backend');
+        throw new Error(result.message || "Failed to create event in backend");
       }
 
       toast.dismiss(loadingToast);
       return result;
     } catch (error) {
-      console.error('Error in submitEvent:', error);
+      console.error("Error in submitEvent:", error);
       if (loadingToast) {
         toast.dismiss(loadingToast);
       }
@@ -149,7 +150,7 @@ function CreateEvent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!address) {
       toast.error("Please connect your wallet first");
       return;
@@ -160,7 +161,7 @@ function CreateEvent() {
       name: "Event name",
       location: "Location",
       email: "Email",
-      capacity: "Capacity"
+      capacity: "Capacity",
     };
 
     for (const [field, label] of Object.entries(requiredFields)) {
@@ -181,9 +182,9 @@ function CreateEvent() {
     try {
       const result = await submitEvent();
       toast.success("Event created successfully!");
-      router.push("/"); 
+      router.push("/");
     } catch (error) {
-      console.error('Submit error:', error);
+      console.error("Submit error:", error);
       toast.error(error.message || "Failed to create event");
     } finally {
       setIsLoading(false);
@@ -239,7 +240,6 @@ function CreateEvent() {
           />,
           document.body
         )}
-      {/* <Navbar /> */}
       <main className="pt-[74px] pb-[197px]">
         <form onSubmit={handleSubmit} className="lg:max-w-[740px] w-full">
           <Image
@@ -403,7 +403,7 @@ function CreateEvent() {
           </div>
 
           <div className="border-[0.3px] border-white py-4 px-3 flex gap-x-2 mt-4 items-center text-white rounded-sm">
-            <HiOutlineMail size='20' />
+            <HiOutlineMail size="20" />
             <input
               name="email"
               type="email"
@@ -426,13 +426,15 @@ function CreateEvent() {
                 setDescription(e.target.value);
               }}
               placeholder="Add description"
-              className="bg-transparent flex-grow rounded-sm border-[0.15px] border-white p-2 text-[#D9D9D9] text-sm placeholder:text-[#D9D9D9]"              
+              className="bg-transparent flex-grow rounded-sm border-[0.15px] border-white p-2 text-[#D9D9D9] text-sm placeholder:text-[#D9D9D9]"
               id=""
             ></textarea>
           </div>
 
           <div className="mt-4  text-white">
-            <h3 className="mb-2 text-sm lg:text-base font-medium">Event Details</h3>
+            <h3 className="mb-2 text-sm lg:text-base font-medium">
+              Event Details
+            </h3>
             <div className="border-[0.3px] border-white py-[14px] px-4 flex flex-col gap-x-2 items-center text-sm lg:text-base rounded-sm divide-y divide-gray-400">
               <div className="flex justify-between w-full items-center pb-3">
                 <div className="flex items-center gap-x-2">
@@ -448,7 +450,9 @@ function CreateEvent() {
                 >
                   <div
                     className={`h-[22px] w-[22px] transform bg-white rounded-full shadow-md transition-transform duration-300 md:h-4 md:w-4 ${
-                      approved ? "translate-x-5 md:translate-x-8" : "translate-x-0 "
+                      approved
+                        ? "translate-x-5 md:translate-x-8"
+                        : "translate-x-0 "
                     }`}
                   />
                 </div>
@@ -524,7 +528,7 @@ function CreateEvent() {
             type="submit"
             disabled={isLoading}
             className={`w-full py-3 border-white border-[0.5px] rounded-sm text-sm lg:text-xl font-regular text-white mt-6 
-              ${isLoading ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#000000] hover:bg-gray-900'}`}
+              ${isLoading ? "bg-gray-600 cursor-not-allowed" : "bg-[#000000] hover:bg-gray-900"}`}
           >
             {isLoading ? (
               <div className="flex items-center justify-center gap-2">
@@ -532,12 +536,11 @@ function CreateEvent() {
                 <span>Creating event...</span>
               </div>
             ) : (
-              'Create event'
+              "Create event"
             )}
           </button>
         </form>
       </main>
-      {/* <Footer /> */}
     </div>
   );
 }
