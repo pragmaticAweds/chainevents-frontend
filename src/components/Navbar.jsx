@@ -33,7 +33,7 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isToggle, setIsToggle] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const router = useRouter();
 
@@ -78,7 +78,7 @@ function Navbar() {
             </AnimatePresence>
           )}
 
-          <div className="flex-1 flex justify-start lg:justify-center">
+          <div className="flex justify-start">
             <Logo />
           </div>
 
@@ -100,7 +100,7 @@ function Navbar() {
 
           {/* Desktop navigation */}
           <ul className="gap-x-[55px] items-center lg:flex hidden md:mr-4">
-            {navLinks.map((link, i) => (
+            {isConnected && navLinks.map((link, i) => (
               <Link href={link.to} key={i}>
                 <li className="flex justify-center whitespace-nowrap items-center gap-x-2">
                   <Image
@@ -153,7 +153,7 @@ function Navbar() {
           className="lg:hidden absolute top-24 left-0 right-0 z-50 mx-4 md:mx-[65px] bg-[#1E1D1D] rounded-xl shadow-lg overflow-hidden"
         >
           <ul className="flex flex-col py-4 text-white">
-            {navLinks.map((link, i) => (
+            {isConnected && navLinks.map((link, i) => (
               <Link href={link.to} key={i} onClick={() => setIsToggle(false)}>
                 <li className="flex items-center gap-x-3 px-6 py-3 hover:bg-[#C4C4C433]">
                   <Image
