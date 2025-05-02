@@ -1,10 +1,18 @@
 "use client";
 import { useConnect } from "@starknet-react/core";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const ConnectModal = ({ setIsOpen }) => {
+  const router = useRouter();
   const { connect, connectors } = useConnect();
 
+  const redirectToLastPage = () => {
+    // const lastPage = localStorage.getItem("lastPage");
+    // if (lastPage) {
+    //   router.push(lastPage);
+    // }
+  };
   return (
     <div
       className="fixed top-0 left-0 h-screen w-full bg-white/10 backdrop-blur-lg shadow-lg flex items-center gap-x-4 justify-center z-[100]"
@@ -21,6 +29,7 @@ const ConnectModal = ({ setIsOpen }) => {
             onClick={() => {
               connect({ connector });
               setIsOpen(false);
+              redirectToLastPage();
             }}
             className=" w-full text-[]    bg-[#1E1D1D] p-[2px] overflow-hidden gap-4 pr-[15%] rounded-md flex  items-center justify-between   "
           >

@@ -49,7 +49,7 @@ const HostsCard = () => {
   );
 };
 
-const HostLine = ({ pillText, hostLineImg, pillType }) => {
+export const HostLine = ({ pillText, hostLineImg, pillType }) => {
   return (
     <div className="flex justify-between pb-3 border-b-[#C3B07A] border-b-[.3px]">
       <div className="flex space-x-3 items-center">

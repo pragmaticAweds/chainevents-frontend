@@ -6,40 +6,13 @@ import EventCard from "@/components/EventCard";
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "@starknet-react/core";
 import { ChevronDown } from "lucide-react";
-const fetchUserEvents = async ({ queryKey }) => {
-  const { event_owner_address, page, per_page } = queryKey[0];
-
-  // Build query parameters conditionally
-  const params = new URLSearchParams();
-  if (page !== undefined && page !== null) {
-    params.append("page", page);
-  }
-  if (per_page !== undefined && per_page !== null) {
-    params.append("per_page", per_page);
-  }
-
-  const queryString = params.toString();
-
-  const url = `https://chainevents-backend.onrender.com/event/owner/${event_owner_address}${
-    queryString ? `?${queryString}` : ""
-  }`;
-
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error("Failed to fetch events");
-  }
-
-  const json = await response.json();
-
-  console.log("data", json.data.data);
-
-  return json.data.data;
-};
+import Pagination from "@/components/Pagination";
+import Link from "next/link";
+import EventService from "@/services/event/eventService";
+import EventStripSkeleton from "@/components/skeletons/EventStripSkeleton";
 
 const YourEvents = ({ page, per_page }) => {
   const { address } = useAccount();
-
-  // const test_owner_address = "34875urijkdfrhutri4jo35u4930984";
 
   const {
     data: events,
@@ -47,7 +20,7 @@ const YourEvents = ({ page, per_page }) => {
     isLoading,
   } = useQuery({
     queryKey: [{ event_owner_address: address, page, per_page }],
-    queryFn: fetchUserEvents,
+    queryFn: EventService.getOwnerEvents,
     enabled: !!address,
   });
 
@@ -74,22 +47,44 @@ const YourEvents = ({ page, per_page }) => {
           {!address ? (
             <p>Please connect your wallet to view your events.</p>
           ) : isLoading ? (
-            <p className="text-white">Loading your events.</p>
+            <div className="flex flex-col gap-y-4">
+              {[...Array(3)].map((_, index) => (
+                <EventStripSkeleton key={index} />
+              ))}
+            </div>
           ) : error?.message ? (
             <p className="text-white">{error?.message}</p>
           ) : events?.length ? (
-            events.map((event, index) => (
-              <EventCard key={index} event={event} baseRoute="your-events" />
-            ))
+            <div className="">
+              {events.map((event, index) => (
+                <EventCard key={index} event={event} baseRoute="your-events" />
+              ))}
+
+              <div className="mt-[34px] flex w-full justify-end">
+                <Pagination count={events.length} />
+              </div>
+            </div>
           ) : (
-            "You dont have any events, please add one!"
+            <div className="flex flex-col justify-center items-center">
+              <p className="mt-2 mb-6 text-xl leading-5 text-[#C4C4C4] font-normal">
+                You have no events.
+              </p>
+
+              <Link
+                href={"/create-event"}
+                className="bg-black py-4 px-[38px] flex items-center gap-x-[10px] rounded-full text-sm leading-[18px] font-semibold border-[.5px] border-white max-w-max"
+              >
+                <Image
+                  src="/assets/add-circle.svg"
+                  width={16}
+                  height={16}
+                  alt="#"
+                />
+                <span>Create new event</span>
+              </Link>
+            </div>
           )}
         </div>
-        {events && events.length > 0 && (
-        <div className="mt-[34px] flex w-full justify-end">
-          <Pagination count={events.length} />
-        </div>
-      )}
       </main>
     </div>
   );

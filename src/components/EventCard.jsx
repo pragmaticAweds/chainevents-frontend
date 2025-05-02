@@ -1,6 +1,4 @@
-
 "use client";
-
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -43,8 +41,6 @@ const EventCard = ({ event, baseRoute }) => {
           >
             {event.name}
           </button>
-
-          <h5>Lagos, Nigeria</h5>
 
           <div className="flex items-center gap-x-2">
             <Image src="/assets/location.svg" alt="" width={14} height={14} />

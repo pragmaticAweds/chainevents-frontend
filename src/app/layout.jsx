@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "../components/Providers";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 import { TanstackQueryProvider } from "@/components/provider/TanstackQueryProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -26,15 +26,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className=" bg-primaryBackground bg-[#1E1D1D]">
-
         <TanstackQueryProvider>
           <Providers>
+            <Navbar />
             <ProtectedRoute>
-              <Navbar />
               {children}
               <Footer />
             </ProtectedRoute>
-            </Providers>
+          </Providers>
           <Toaster position="bottom-left" />
         </TanstackQueryProvider>
       </body>
