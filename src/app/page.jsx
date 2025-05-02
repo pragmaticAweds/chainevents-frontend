@@ -47,7 +47,7 @@ function HomePage() {
                 </span>
               </h1>
 
-              <div className="w-[200px] mx-auto">
+              <div className="space-y-4 mx-auto">
                 <Image
                   src="/assets/calendar-02.svg"
                   width={200}
@@ -56,23 +56,27 @@ function HomePage() {
                   className="mx-auto"
                 />
 
-                <p className="mt-2 mb-6 text-base leading-5 text-[#C4C4C4] font-normal">
-                  You have no current event <br />
-                  <span className="font-semibold">Host one</span>
-                </p>
+                <div className="flex gap-4">
+                  <Link
+                    href={"/your-events"}
+                    className="bg-[#3f3e3e] py-4 px-[38px] flex items-center gap-x-[10px] rounded-full text-sm leading-[18px] font-semibold border-[.5px] border-white"
+                  >
+                    <span>View your events</span>
+                  </Link>
 
-                <Link
-                  href={"/create-event"}
-                  className="bg-black py-4 px-[38px] flex items-center gap-x-[10px] rounded-full text-sm leading-[18px] font-semibold border-[.5px] border-white"
-                >
-                  <Image
-                    src="/assets/add-circle.svg"
-                    width={16}
-                    height={16}
-                    alt="#"
-                  />
-                  <span>Create Event</span>
-                </Link>
+                  <Link
+                    href={"/create-event"}
+                    className="bg-black py-4 px-[38px] flex items-center gap-x-[10px] rounded-full text-sm leading-[18px] font-semibold border-[.5px] border-white"
+                  >
+                    <Image
+                      src="/assets/add-circle.svg"
+                      width={16}
+                      height={16}
+                      alt="#"
+                    />
+                    <span>Create new event</span>
+                  </Link>
+                </div>
               </div>
             </div>
           </>

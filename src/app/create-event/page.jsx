@@ -13,7 +13,11 @@ import SetTicketPriceModal from "../../components/SetTicketPriceModal";
 import SetCapacityModal from "../../components/SetCapacityModal";
 import { timezones } from "../../utils/data";
 import DateMobilePicker from "../../components/DateMobilePicker";
-import { formatDisplayDate, formatTimeWithAmPm } from "../../utils/helpers";
+import {
+  formatDisplayDate,
+  formatTimeWithAmPm,
+  tryCatch,
+} from "../../utils/helpers";
 import { contractAbi } from "../../abi/abi";
 import { contractAddress } from "../../utils/address";
 import { useContractWriteUtility } from "../../utils/helpers";
@@ -22,9 +26,10 @@ import Image from "next/image";
 import LockBodyScroll from "@/components/LockBodyScroll";
 import { HiChevronDown } from "react-icons/hi2";
 import { HiOutlineMail } from "react-icons/hi";
-import { createEvent } from "@/services/event/createEvent";
+// import EventService, { createEvent } from "@/services/event/createEvent";
 import { useAccount } from "@starknet-react/core";
 import { toast } from "react-hot-toast";
+import EventService from "@/services/event/eventService";
 
 function CreateEvent() {
   const [isEditingPrice, setIsEditingPrice] = useState(false);
@@ -131,10 +136,22 @@ function CreateEvent() {
         event_capacity: parseInt(capacity),
       };
 
-      const result = await createEvent(eventData);
+      // const result = await createEvent(eventData);
 
-      if (!result.success) {
-        throw new Error(result.message || "Failed to create event in backend");
+      const [result, error] = await tryCatch(
+        EventService.createEvent(eventData)
+      );
+
+      if (error) {
+        console.log(error);
+      }
+
+      if (!result.success || error) {
+        throw new Error(
+          result.message ||
+            error?.message ||
+            "Failed to create event in backend"
+        );
       }
 
       toast.dismiss(loadingToast);
@@ -182,7 +199,7 @@ function CreateEvent() {
     try {
       const result = await submitEvent();
       toast.success("Event created successfully!");
-      router.push("/");
+      router.push("/your-events");
     } catch (error) {
       console.error("Submit error:", error);
       toast.error(error.message || "Failed to create event");

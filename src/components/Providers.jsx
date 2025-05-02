@@ -30,6 +30,7 @@ export function Providers({ children }) {
         })}
         connectors={connectors}
         explorer={voyager}
+        autoConnect={true}
       >
         {children}
       </StarknetConfig>

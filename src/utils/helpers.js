@@ -59,7 +59,11 @@ export function useContractWriteUtility(
     error,
   } = useSendTransaction({ calls });
 
-  const { isLoading: waitIsLoading, data: waitData,isSuccess } = useTransactionReceipt({
+  const {
+    isLoading: waitIsLoading,
+    data: waitData,
+    isSuccess,
+  } = useTransactionReceipt({
     hash: writeData?.transaction_hash,
     watch: true,
   });
@@ -72,6 +76,37 @@ export function useContractWriteUtility(
     waitData,
     calls,
     error,
-    isSuccess
+    isSuccess,
   };
+}
+
+/**
+ * Utility function to handle promises with a try-catch pattern
+ * Returns a tuple with [data, error] where one value will always be null
+ *
+ * @param {Promise<any>} promise - The promise to be handled
+ * @returns {Promise<[any|null, Error|null]>} - Returns [data, null] on success or [null, error] on failure
+ *
+ * @example
+ * // Success case
+ * const [data, error] = await tryCatch(api.fetchData());
+ * if (data) {
+ *   // Handle success
+ * }
+ *
+ * @example
+ * // Error case
+ * const [data, error] = await tryCatch(api.fetchData());
+ * if (error) {
+ *   // Handle error
+ * }
+ */
+
+export async function tryCatch(promise) {
+  try {
+    const data = await promise;
+    return [data, null];
+  } catch (error) {
+    return [null, error];
+  }
 }
